@@ -1,0 +1,17 @@
+VAROITUS create-react-app tekee projektista automaattisesti Git-repositorion, 
+ellei sovellusta luoda jo olemassa olevan repositorion sisälle. 
+Todennäköisesti et halua, että projektista tulee repositorio, 
+joten suorita projektin juuressa komento 
+
+
+rm -rf .git
+
+
+
+Vinkki: Kun olet avaamassa tehtävääsi Visual Studio Codella, 
+huomaathan avata koko projektin kansion editoriin. 
+Tämä mahdollistaa editorissa helpomman tiedostojen välillä siirtymisen ja 
+paremmat automaattiset täydennykset. Tämä onnistuu siirtymällä terminaalissa 
+projektin kansioon ja komentamalla:
+
+$ code .

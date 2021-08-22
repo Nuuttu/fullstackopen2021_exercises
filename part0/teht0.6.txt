@@ -1,0 +1,4 @@
+selain->palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+palvelin->selain: JSON-muodossa oleva viesti  [  {"message":"note created"}  ]
+
+tapahtumakäsittelijä rendereöi listan uudelleen
