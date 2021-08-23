@@ -4,6 +4,22 @@ import Persons from './components/Persons'
 import Filter from './components/Filter'
 import personService from './services/PersonServices'
 
+const Notification = (props) => {
+  if (props.errorMessage === null && props.successMessage === null) {
+    return null
+  }
+  if (props.errorMessage != null)
+    return (
+    <div className="error">
+      {props.errorMessage}
+    </div>
+    )
+  return (
+    <div className="success">
+      {props.successMessage}
+    </div>
+  )
+}
 
 const App = () => {
   const [ persons, setPersons] = useState([
@@ -14,6 +30,9 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter ] = useState('')
+  const [ errorMessage, setErrorMessage ] = useState(null)
+  const [ successMessage, setSuccessMessage ] = useState(null)
+
   
   const personFetch = () => {
     personService
@@ -21,38 +40,113 @@ const App = () => {
       .then(response => {
         setPersons(response)
       })
+      .catch(error => {
+        console.log('fail', error)
+      })
   }
   useEffect(personFetch, [])
 
   const addPerson = (e) => {
     e.preventDefault();
     var alreadyExists = false;
+    const personObject = { name: newName, number: newNumber }
     for (let i = 0; i < persons.length; i++) {
-      if (persons[i].name === newName || persons[i].number === newNumber ) {
-        alert(newName + ' is already added to phonebook');
+      if (persons[i].name === newName /* || persons[i].number === newNumber */) { 
+        /* alert(newName + ' is already added to phonebook'); */
+        if (window.confirm(`${newName} already exists. Replace old with new?`)) {
+          const pid = persons.find(person => person.name === newName).id
+          personService
+            .update(pid, personObject)
+            .then(response => {
+              personFetch();
+              setSuccessMessage('updated person successfully')
+              setTimeout(() => {
+              setSuccessMessage(null) 
+                }, 2000)
+              })
+            .catch(error => {
+              console.log('fail', error);
+              setErrorMessage(
+                `updating ${newName} person failed`
+              )
+              setTimeout(() => {
+                setErrorMessage(null)
+              }, 5000)
+              })
+        }
         alreadyExists = true;
         break;
       }
+      if (/* persons[i].name === newName || */ persons[i].number === newNumber ) { /* separated for ease */
+        /* alert(newName + ' is already added to phonebook'); */
+        if (window.confirm(`${newName} already exists. Replace old with new?`)) {
+          const pid = persons.find(person => person.number === newNumber).id
+          personService
+            .update(pid, personObject)
+            .then(response => {
+              personFetch();
+              setSuccessMessage('updated person successfully')
+              setTimeout(() => {
+              setSuccessMessage(null) 
+                }, 2000)
+            })
+            .catch(error => {
+              console.log('fail', error);
+              setErrorMessage(
+                `updating ${newName} person failed`
+              )
+              setTimeout(() => {
+                setErrorMessage(null)
+              }, 5000)
+              })
+        }
+        alreadyExists = true;
+        break;
+      }
+      
     }
-    const personObject = { name: newName, number: newNumber }
     if (!alreadyExists) {
       personService
         .create(personObject)
-        .then(
-          personFetch()
-        )
+        .then(returnedPerson => { /* This is the way */ 
+          setPersons(persons.concat(returnedPerson));
+          setSuccessMessage('added person successfully')
+          setTimeout(() => {
+            setSuccessMessage(null) 
+            }, 2000)
+        })
+        .catch(error => {
+          console.log('fail', error)
+        })
     }
     setNewNumber('');
     setNewName('');
   }
 
   const deletePerson = (id) => {
-    console.log('id to del', id)
-    console.log('name to delete', persons.find(person => person.id === id).name )
-    if (window.confirm('Wanna delete ' + persons.find(person => person.id === id).name + '?' )) {
-    personService
-      .deletePerson(id)
-      .then(personFetch())
+    const personToDelete = persons.find(person => person.id === id).name
+    console.log('id to del', id);
+    console.log('name to delete', personToDelete );
+
+    if (window.confirm('Wanna delete ' + personToDelete + '?' )) {
+      personService
+        .deleteService(id)
+        .then(response => { 
+          personFetch()
+          setSuccessMessage(`deleted ${personToDelete} person successfully`)
+          setTimeout(() => {
+            setSuccessMessage(null) 
+            }, 2000)
+        }) /* this is the way, almost... */
+        .catch(error => {
+          console.log('fail', error);
+          setErrorMessage(
+            `No ${personToDelete} found on the server`
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+          })
     }
   }
 
@@ -71,6 +165,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification successMessage={successMessage} errorMessage={errorMessage} />
       <Filter 
         newFilter={newFilter} 
         handleFilterChange={handleFilterChange}/>
