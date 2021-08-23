@@ -63,13 +63,20 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter newFilter={newFilter} handleFilterChange={handleFilterChange}/>
+      <Filter 
+        newFilter={newFilter} 
+        handleFilterChange={handleFilterChange}/>
       <h1>add a new</h1>
-      <PersonForm addPerson={addPerson} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange}/>
-      
+      <PersonForm 
+        addPerson={addPerson} 
+        newName={newName} 
+        newNumber={newNumber} 
+        handleNameChange={handleNameChange} 
+        handleNumberChange={handleNumberChange}/>
       <h2>Numbers</h2>
-      <Persons persons={persons} newFilter={newFilter}/>
-      
+      <Persons 
+        persons={persons} 
+        newFilter={newFilter}/>
     </div>
   )
 
