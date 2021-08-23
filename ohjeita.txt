@@ -44,3 +44,22 @@ ja tehdään tiedoston package.json osaan scripts pieni lisäys
     "server": "json-server -p3001 --watch db.json"
   },
 }
+
+
+
+
+
+
+npm update
+
+Vastaavasti jos aloitamme projektin koodaamisen toisella koneella, 
+saamme haettua ajantasaiset, package.json:in määrittelyn kanssa yhteensopivat 
+riippuvuudet komennolla
+
+npm install
+
+Jos riippuvuuden major-versionumero ei muutu, uudempien versioiden pitäisi 
+olla taaksepäin yhteensopivia, eli jos ohjelmamme käyttäisi tulevaisuudessa 
+esim. expressin versiota 4.99.175, tässä osassa tehtävän koodin pitäisi 
+edelleen toimia ilman muutoksia. Sen sijaan tulevaisuudessa joskus julkaistava 
+express 5.0.0. voi sisältää sellaisia muutoksia, että koodimme ei enää toimisi.
