@@ -15,3 +15,14 @@ paremmat automaattiset täydennykset. Tämä onnistuu siirtymällä terminaaliss
 projektin kansioon ja komentamalla:
 
 $ code .
+
+
+
+npm install axios
+npm install json-server --save-dev
+
+npx json-server --port=3001 --watch db.json
+
+Oletusarvoisesti json-server käynnistyy porttiin 3000, 
+mutta create-react-app:illa luodut projektit varaavat portin 3000, 
+joten joudumme nyt määrittelemään json-serverille vaihtoehtoisen portin 3001.
