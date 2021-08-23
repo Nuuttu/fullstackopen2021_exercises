@@ -1,3 +1,19 @@
+
+
+
+
+npm server: 
+npm init
+"scripts:" {
+	"start": "node index.js",
+npm install express
+npm install --save-dev nodemon
+"scripts": {
+	"dev": "nodemon index.js",
+"devdDpendencies": {
+	"dev": "nodemon index.js",
+
+
 VAROITUS create-react-app tekee projektista automaattisesti Git-repositorion, 
 ellei sovellusta luoda jo olemassa olevan repositorion sisälle. 
 Todennäköisesti et halua, että projektista tulee repositorio, 

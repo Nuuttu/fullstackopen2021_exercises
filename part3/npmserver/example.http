@@ -15,21 +15,46 @@ content-type: application/json
 }
 
 ### 
-
-GET http://localhost:3001/api/notes/1 HTTP/1.1
-
+GET http://localhost:3001/info
 
 ###
-
-DELETE http://localhost:3001/api/notes/1 HTTP/1.1
-
+GET http://localhost:3001/api/persons/
 
 ###
+DELETE http://localhost:3001/api/persons/1 
 
-POST http://localhost:3001/api/notes/
+###
+POST http://localhost:3001/api/persons/
 Content-Type: application/json
 
 {
-    "content": "VS code rest client from",
-    "important": false
+    "name": "{{$randomInt 10 10000}}",
+    "number": "{{$randomInt 10 10000}}"
+}
+
+###
+POST http://localhost:3001/api/persons/
+Content-Type: application/json
+
+{
+    "name": "Sample",
+    "number": "1212"
+}
+
+###
+POST http://localhost:3001/api/persons/
+Content-Type: application/json
+
+{
+    "name": "Sample",
+    "number": "22"
+}
+
+###
+POST http://localhost:3001/api/persons/
+Content-Type: application/json
+
+{
+    "name": "Dimpl",
+    "number": "22"
 }
