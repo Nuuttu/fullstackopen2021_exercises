@@ -2,11 +2,7 @@ import React, { useState, useEffect  } from 'react'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
-
-import axios from 'axios'
-
-
-
+import personService from './services/PersonServices'
 
 
 const App = () => {
@@ -20,18 +16,14 @@ const App = () => {
   const [ newFilter, setNewFilter ] = useState('')
   
   const personFetch = () => {
-    axios
-      .get('http://localhost:3001/persons')
+    personService
+      .getAll()
       .then(response => {
-        setPersons(response.data)
+        setPersons(response)
       })
   }
-  
   useEffect(personFetch, [])
 
-  
-  
-  
   const addPerson = (e) => {
     e.preventDefault();
     var alreadyExists = false;
@@ -42,10 +34,26 @@ const App = () => {
         break;
       }
     }
-    if (!alreadyExists) setPersons(persons.concat({ name: newName , number: newNumber }));
+    const personObject = { name: newName, number: newNumber }
+    if (!alreadyExists) {
+      personService
+        .create(personObject)
+        .then(
+          personFetch()
+        )
+    }
     setNewNumber('');
     setNewName('');
-    
+  }
+
+  const deletePerson = (id) => {
+    console.log('id to del', id)
+    console.log('name to delete', persons.find(person => person.id === id).name )
+    if (window.confirm('Wanna delete ' + persons.find(person => person.id === id).name + '?' )) {
+    personService
+      .deletePerson(id)
+      .then(personFetch())
+    }
   }
 
   const handleNameChange = (e) => {
@@ -76,7 +84,8 @@ const App = () => {
       <h2>Numbers</h2>
       <Persons 
         persons={persons} 
-        newFilter={newFilter}/>
+        newFilter={newFilter}
+        deletePerson={deletePerson}/>
     </div>
   )
 

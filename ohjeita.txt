@@ -23,6 +23,24 @@ npm install json-server --save-dev
 
 npx json-server --port=3001 --watch db.json
 
+npm run server
+
 Oletusarvoisesti json-server käynnistyy porttiin 3000, 
 mutta create-react-app:illa luodut projektit varaavat portin 3000, 
 joten joudumme nyt määrittelemään json-serverille vaihtoehtoisen portin 3001.
+
+
+npm install json-server --save-dev
+
+ja tehdään tiedoston package.json osaan scripts pieni lisäys
+
+{
+  // ... 
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "server": "json-server -p3001 --watch db.json"
+  },
+}
