@@ -2,7 +2,7 @@
 
 
 
-npm server: 
+npm backend: 
 npm init
 "scripts:" {
 	"start": "node index.js",
@@ -13,12 +13,38 @@ npm install --save-dev nodemon
 "devdDpendencies": {
 	"dev": "nodemon index.js",
 
+npm run dev
+
+npm install cors
+
+
+
+
+to heroku:
+
+https://devcenter.heroku.com/articles/git
+
+heroku create
+heroku git:remote -a thawing-inlet-61413
+
+git remote -v
+
+git init
+git add .
+git commit -am "mmmm"
+git push heroku master
+
+"engines": {
+	"node": "14.x"
+},
+
+
+
 
 VAROITUS create-react-app tekee projektista automaattisesti Git-repositorion, 
 ellei sovellusta luoda jo olemassa olevan repositorion sisälle. 
 Todennäköisesti et halua, että projektista tulee repositorio, 
 joten suorita projektin juuressa komento 
-
 
 rm -rf .git
 
@@ -33,7 +59,6 @@ projektin kansioon ja komentamalla:
 $ code .
 
 
-
 npm install axios
 npm install json-server --save-dev
 
@@ -44,7 +69,6 @@ npm run server
 Oletusarvoisesti json-server käynnistyy porttiin 3000, 
 mutta create-react-app:illa luodut projektit varaavat portin 3000, 
 joten joudumme nyt määrittelemään json-serverille vaihtoehtoisen portin 3001.
-
 
 npm install json-server --save-dev
 

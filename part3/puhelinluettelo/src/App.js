@@ -130,9 +130,6 @@ const App = () => {
 
   const deletePerson = (id) => {
     const personToDelete = persons.find(person => person.id === id).name
-    console.log('id to del', id);
-    console.log('name to delete', personToDelete );
-
     if (window.confirm('Wanna delete ' + personToDelete + '?' )) {
       personService
         .deleteService(id)
@@ -151,7 +148,7 @@ const App = () => {
           setTimeout(() => {
             setErrorMessage(null)
           }, 5000)
-          })
+        })
     }
   }
 
