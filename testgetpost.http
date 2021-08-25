@@ -1,0 +1,23 @@
+
+
+POST http://localhost:3001/api/persons/
+Content-Type: application/json
+
+{
+    "name": "moI",
+    "number": "02020"
+}
+
+###
+
+POST http://localhost:3001/api/persons/
+Content-Type: application/json
+
+{
+    "name": "{{$randomInt 10 10000}}",
+    "number": "{{$randomInt 10 10000}}"
+}
+
+###
+
+GET http://localhost:3001/api/persons/
