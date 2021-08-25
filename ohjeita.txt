@@ -17,7 +17,7 @@ npm run dev
 
 npm install cors
 
-
+npm install dotenv
 
 
 to heroku:
