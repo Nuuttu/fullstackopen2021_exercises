@@ -121,7 +121,11 @@ const App = () => {
             }, 2000)
         })
         .catch(error => {
-          console.log('fail', error)
+          console.log('fail', error);
+          setErrorMessage('error happened: ' + error.response.data.error)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
         })
     }
     setNewNumber('');

@@ -38,6 +38,9 @@ git push heroku master
 	"node": "14.x"
 },
 
+	heroku config .env -tiedoston tilalle
+heroku config:set MONGODB_URI=mongodb+srv://fullstack:secretpasswordhere@cluster0-ostce.mongodb.net/note-app?retryWrites=true
+
 
 
 

@@ -1,23 +1,38 @@
 
 
-POST http://localhost:3001/api/persons/
-Content-Type: application/json
-
-{
-    "name": "moI",
-    "number": "02020"
-}
-
-###
-
-POST http://localhost:3001/api/persons/
-Content-Type: application/json
-
-{
-    "name": "{{$randomInt 10 10000}}",
-    "number": "{{$randomInt 10 10000}}"
-}
+DELETE http://localhost:3001/api/persons/6126a9ef68e2b3210825b951
 
 ###
 
 GET http://localhost:3001/api/persons/
+
+###
+
+POST http://localhost:3001/api/persons/
+Content-Type: application/json
+
+{
+    "name": "{{$randomInt 101 10000}}",
+    "number": "{{$randomInt 1000000 10000000}}"
+}
+
+###
+
+POST http://localhost:3001/api/persons/
+Content-Type: application/json
+
+{
+    "name": "mdubipi",
+    "number": "3ssss322"
+}
+###
+
+PUT http://localhost:3001/api/persons/6126af3896d103135cf04600
+Content-Type: application/json
+
+{
+    "name": "moi",
+    "number": "3322222"
+}
+
+###
