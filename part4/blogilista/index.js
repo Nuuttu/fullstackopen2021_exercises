@@ -1,13 +1,10 @@
-const app = require('./app') // varsinainen Express-sovellus
+const app = require('./app')
 const http = require('http')
 const config = require('./utils/config')
 const logger = require('./utils/logger')
-const blogsRouter = require('./models/blog')
-const notesRouter = require('express').Router()
 
-const server = http.createServer(app)
 
-module.exports = blogsRouter
+const server = http.createServer(app) 
 
 const PORT = config.PORT
 app.listen(PORT, () => {
