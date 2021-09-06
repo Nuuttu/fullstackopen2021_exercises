@@ -1,5 +1,3 @@
-const testHelper = require('../utils/test_helper')
-
 describe('name and blogs of author with most blogs', () => {
   const blogs = [
     {
@@ -53,7 +51,24 @@ describe('name and blogs of author with most blogs', () => {
   ]
 
   test('most blogs', () => {
-    const result = testHelper.mostBlogs(blogs)
+    const result = mostBlogs(blogs)
     expect(result).toEqual({"author": "Robert C. Martin", "blogs": 3})
   })
 })
+
+
+const { sum } = require('lodash')
+var _ = require('lodash');
+const mostBlogs = (blogs) => {
+  blogsArray = []
+  blogs.map((b, i) => {
+    blogsArray = blogsArray.concat({ author: b.author })
+  })
+  /* https://stackoverflow.com/questions/44649137/lodash-add-keys-to-countby-function */
+  var countArray = _.map(_.countBy(blogsArray, "author"), (count, name) => ({ author: name, blogs: count }))
+  /* https://stackoverflow.com/questions/4020796/finding-the-max-value-of-an-attribute-in-an-array-of-objects */
+  const a = countArray.reduce(function (prev, current) {
+    return (prev.blogs > current.blogs) ? prev : current
+  })
+  return a
+}

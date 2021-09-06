@@ -1,4 +1,3 @@
-const testHelper = require('../utils/test_helper')
 
 test('total likes', () => {
   const blogs = [
@@ -68,7 +67,21 @@ describe('likes of one blog', () => {
     }
   ]
   test('when list has only one blog equals the likes of that', () => {
-    const result = testHelper.totalLikes(listWithOneBlog)
+    const result = totalLikes(listWithOneBlog)
     expect(result).toBe(5)
   })
 })
+
+
+
+
+const totalLikes = (blogs) => {
+  var likes = 2
+  var likearray = []
+  blogs.map((b, i) => {
+    likearray = likearray.concat(b.likes)
+  })
+  likes = likearray.reduce((a, c) => a + c)
+
+  return likes
+}

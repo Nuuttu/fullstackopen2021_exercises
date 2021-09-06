@@ -1,7 +1,5 @@
-const testHelper = require('../utils/test_helper')
-
 describe('author and likes count', () => {
-  const blogs = [
+  const initBlogs = [
     {
       _id: "5a422a851b54a676234d17f7",
       title: "React patterns",
@@ -53,7 +51,29 @@ describe('author and likes count', () => {
   ]
 
   test('most likes', () => {
-    const result = testHelper.mostLikes(blogs)
+    const result = mostLikes(initBlogs)
     expect(result).toEqual({"author": "Edsger W. Dijkstra", "likes": 30})
   })
 })
+
+
+const mostLikes = (blogs) => {
+  authorArray = []
+  blogs.map((b, i) => {
+    authorArray = authorArray.concat({ author: b.author, likes: b.likes })
+  })
+  /* https://stackoverflow.com/questions/38774763/using-lodash-to-sum-values-by-key */
+  var out =
+    _(authorArray)
+      .groupBy('author')
+      .map((o, key) => ({
+        author: key,
+        'likes': _.sumBy(o, 'likes')
+      }))
+      .value();
+  /* https://stackoverflow.com/questions/4020796/finding-the-max-value-of-an-attribute-in-an-array-of-objects */
+  const a = out.reduce(function (prev, current) {
+    return (prev.likes > current.likes) ? prev : current
+  })
+  return a
+}
