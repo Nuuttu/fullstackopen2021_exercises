@@ -1,3 +1,36 @@
+const Blog = require('../models/blog')
+
+
+const initialBlogs = [
+  {
+    "title": "Test of Wrath",
+    "author": "TT Tilke",
+    "url": "ex.test1",
+    "likes": 32,
+  },
+  {
+    "title": "Test of Wrath 2",
+    "author": "TT Jolke",
+    "url": "ex.test",
+    "likes": 12,
+  },
+]
+
+const nonExistingId = async () => {
+  const blog = new Blog({ title: 'willremovethissoon', author: "this too", url: "with this", likes: "ayay", })
+  await blog.save()
+  await blog.remove()
+
+  return blog._id.toString()
+}
+
+const blogsInDb = async () => {
+  const blogs = await Blog.find({})
+  return blogs.map(blog => blog.toJSON())
+}
+
+
+
 const totalLikes = (blogs) => {
   var likes = 2
   var likearray = []
@@ -8,17 +41,6 @@ const totalLikes = (blogs) => {
 
   return likes
 }
-
-const favoriteBlog = (blogs) => {
-  var highlike = blogs[0]
-  blogs.map((b, i) => {
-    if (b.likes >= highlike.likes) {
-      highlike = b
-    }
-  })
-  return (highlike)
-}
-
 
 const { sum } = require('lodash')
 var _ = require('lodash');
@@ -59,7 +81,9 @@ const mostLikes = (blogs) => {
 
 module.exports = {
   totalLikes,
-  favoriteBlog,
   mostBlogs,
   mostLikes,
+  nonExistingId,
+  blogsInDb,
+  initialBlogs,
 }

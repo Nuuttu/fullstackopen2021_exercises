@@ -1,6 +1,9 @@
-const listHelper = require('../utils/list_helper')
+const testHelper = require('../utils/test_helper')
 
-describe('favorite blog', () => {
+
+
+test('two same high likes number blogs', () => {
+
   const blogs = [
     {
       _id: "5a422a851b54a676234d17f7",
@@ -49,18 +52,34 @@ describe('favorite blog', () => {
       url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
       likes: 2,
       __v: 0
-    }  
+    }
   ]
-  
-  test('two same high likes number blogs', () => {
-    const result = listHelper.favoriteBlog(blogs)
-    expect(result).toEqual({
-      _id: "5a422aa71b54a676234d17f8",
-      title: "Go To Statement Considered Harmful",
-      author: "Edsger W. Dijkstra",
-      url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
-      likes: 18,
-      __v: 0
-    })
+
+  var highlike = blogs[0]
+  blogs.map((b, i) => {
+    if (b.likes >= highlike.likes) {
+      highlike = b
+    }
+  })
+
+  /* const result = testHelper.favoriteBlog(blogs) */
+  expect(highlike).toEqual({
+    _id: "5a422aa71b54a676234d17f8",
+    title: "Go To Statement Considered Harmful",
+    author: "Edsger W. Dijkstra",
+    url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+    likes: 18,
+    __v: 0
   })
 })
+/*
+const favoriteBlog = (blogs) => {
+  var highlike = blogs[0]
+  blogs.map((b, i) => {
+    if (b.likes >= highlike.likes) {
+      highlike = b
+    }
+  })
+  return (highlike)
+}
+*/

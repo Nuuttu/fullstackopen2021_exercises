@@ -1,4 +1,4 @@
-const listHelper = require('../utils/list_helper')
+const testHelper = require('../utils/test_helper')
 
 describe('author and likes count', () => {
   const blogs = [
@@ -53,7 +53,7 @@ describe('author and likes count', () => {
   ]
 
   test('most likes', () => {
-    const result = listHelper.mostLikes(blogs)
+    const result = testHelper.mostLikes(blogs)
     expect(result).toEqual({"author": "Edsger W. Dijkstra", "likes": 30})
   })
 })

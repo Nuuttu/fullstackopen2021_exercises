@@ -1,5 +1,46 @@
 
 
+GET http://localhost:3003/api/blogs
+
+###
+GET http://localhost:3003/api/blogs/612e05fd05f275333ce9b407
+
+
+###
+POST http://localhost:3003/api/blogs/
+Content-Type: application/json
+
+{
+  "title": "Test of Wrath {{$randomInt 1 100}}",
+  "author": "TT",
+  "url": "ex.ample",
+  "likes": "{{$randomInt 1000000 10000000}}"
+}
+
+###
+
+DELETE http://localhost:3003/api/blogs/612e066eaf7bb82acc41d704
+
+###
+
+PUT http://localhost:3003/api/blogs/612e05fd05f275333ce9b407
+Content-Type: application/json
+
+{
+  "title": "Test of Wrath {{$randomInt 1 100}}",
+  "author": "TT",
+  "url": "ex.changed.change",
+  "likes": "{{$randomInt 1000000 10000000}}"
+}
+
+
+
+
+
+
+
+###
+
 DELETE http://localhost:3001/api/persons/6126a9ef68e2b3210825b951
 
 ###
@@ -30,20 +71,3 @@ Content-Type: application/json
 
 
 
-
-###
-
-GET http://localhost:3003/api/blogs
-
-###
-POST http://localhost:3003/api/blogs/
-Content-Type: application/json
-
-{
-  "title": "Test of Wrath {{$randomInt 1 100}}",
-  "author": "TT",
-  "url": "ex.ample",
-  "likes": "{{$randomInt 1000000 10000000}}"
-}
-
-###
