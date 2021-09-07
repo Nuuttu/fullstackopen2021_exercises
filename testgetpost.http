@@ -10,7 +10,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc
 
 {
   "title": "Test of Wrath {{$randomInt 1 100}}",
-  "author": "TT Jaakko",
+  "author": "TT J",
   "url": "login.req",
   "likes": {{$randomInt 1 100}}
 }
