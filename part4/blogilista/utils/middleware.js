@@ -1,4 +1,6 @@
 const logger = require('./logger')
+const User = require('../models/user')
+const jwt = require('jsonwebtoken')
 
 const requestLogger = (request, response, next) => {
   logger.info('Method:', request.method)
@@ -25,7 +27,7 @@ const errorHandler = (error, request, response, next) => {
     })
   } else if (error.name === 'JsonWebTokenError') {
     return response.status(401).json({
-      error: 'invalid token'
+      error: 'invalid token!'
     })
   } else if (error.name === 'TokenExpiredError') {
     return response.status(401).json({
@@ -36,8 +38,53 @@ const errorHandler = (error, request, response, next) => {
   next(error)
 }
 
+const tokenExtractor = (request, response, next) => {
+
+  const authorization = request.headers.authorization
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    request.token = authorization.substring(7)
+  }
+  
+  next()
+}
+
+const userExtractor = async (request, response, next) => {
+  const authorization = request.headers.authorization
+  const token = authorization.substring(7)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  try {
+    request.user = await User.findById(decodedToken.id)
+  } catch(e){
+    next(e)
+  }
+  
+  next()
+}
+
+/*
+const getTokenFrom = request => {
+    const authorization = request.get('authorization')
+    if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+      return authorization.substring(7)
+    }
+    return null
+  }
+
+
+blogsRouter.post('/', async (request, response, next) => {
+  const body = request.body
+  const token = getTokenFrom(request)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!token || !decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
+  const user = await User.findById(decodedToken.id)
+*/
+
   module.exports = {
     requestLogger,
     unknownEndpoint,
+    tokenExtractor,
+    userExtractor,
     errorHandler
   }
