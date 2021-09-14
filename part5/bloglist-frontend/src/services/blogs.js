@@ -16,14 +16,38 @@ const create = async newObject => {
   const config = {
     headers: { Authorization: token },
   }
-
   const response = await axios.post(baseUrl, newObject, config)
   return response.data
 }
 
-const update = (id, newObject) => {
+const update = async (id, newObject) => {
+  /** no authorization required atm 
+   * 
+   * 
+   * 
+  */
+  
+  const putUrl = baseUrl + "/" + id
+  console.log('newobject from blogs.js')
+  console.log(newObject)
+  const response = await axios.put(putUrl, newObject)
+  console.log('resonse.data from blogs.js')
+  console.log(response.data)
+  return response.data
+
+  /*
   const request = axios.put(`${ baseUrl } /${id}`, newObject)
   return request.then(response => response.data)
+  */
 }
 
-export default { getAll, create, update, setToken }
+const deleteBlog = async (id) => {
+  const config = {
+    headers: {Authorization: token },
+  }
+  const url = baseUrl + "/" + id
+  const response = await axios.delete(url, config)
+  return response.data
+}
+
+export default { getAll, create, update, setToken, deleteBlog }

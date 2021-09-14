@@ -6,7 +6,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlcyIsImlkIjoiNjEzNzNmNWNmNDcwZjQwNTM0MTZjMzBlIiwiaWF0IjoxNjMxMDE1MDQ3fQ.plG1phycrBRkRcfc-7XWu-zqifGwXRDOpDFCEokf_DY
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RlcyIsImlkIjoiNjEzNjA3NTM4MGU2MmYwMTEwOTdiMDgyIiwiaWF0IjoxNjMxNjI1Mjk0fQ.xJ-je5ZrviK5L7gad0Vk2pKCQ2PnOY5v3tx0WfD06Qc
 
 {
   "title": "Test of Wrath {{$randomInt 1 100}}",

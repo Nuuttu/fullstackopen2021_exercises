@@ -34,6 +34,7 @@ const BlogForm = ({ createBlog }) => {
             type='text'
             id='title'
             name='title'
+            required
             onChange={handleBlogInputChange}
           ></input>
         </div>
@@ -43,6 +44,7 @@ const BlogForm = ({ createBlog }) => {
             type='text'
             id='author'
             name='author'
+            required
             onChange={handleBlogInputChange}
           ></input>
         </div>
@@ -52,6 +54,7 @@ const BlogForm = ({ createBlog }) => {
             type='text'
             id='url'
             name='url'
+            required
             onChange={handleBlogInputChange}
           ></input>
         </div>
