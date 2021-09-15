@@ -14,19 +14,19 @@ const Blog = ({ blog, addLike, deleteBlog, user }) => {
           <tbody>
             <tr>
               <th>title</th>
-              <td>{blog.title}</td>
+              <td className='tdtitle'>{blog.title}</td>
             </tr>
             <tr>
-              <th>Likes {blog.likes}</th>
+              <th className='thlikes'>Likes {blog.likes}</th>
               <td><button onClick={() => addLike(blog)}>Like</button></td>
             </tr>
             <tr>
               <th>url</th>
-              <td>{blog.url}</td>
+              <td className='tdurl'>{blog.url}</td>
             </tr>
             <tr>
               <th>author</th>
-              <td>{blog.author}</td>
+              <td className='tdauthor'>{blog.author}</td>
             </tr>
             {/** Could use more intrique method for checking if to show the button */}
             {user !== null &&
@@ -46,7 +46,7 @@ const Blog = ({ blog, addLike, deleteBlog, user }) => {
   }
 
   return (
-    <div>
+    <div className='blogDiv'>
       <div className='blogSpace'>
         {blog.title}
         <button style={{ float: 'right' }} onClick={changeShowInfo}>
@@ -60,9 +60,9 @@ const Blog = ({ blog, addLike, deleteBlog, user }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  addLike: PropTypes.func.isRequired,
-  deleteBlog: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
+  addLike: PropTypes.func,
+  deleteBlog: PropTypes.func,
+  user: PropTypes.object,
 }
 
 export default Blog

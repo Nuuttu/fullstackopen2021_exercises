@@ -2,3 +2,5 @@ node_modules
 build
 .eslintrc.js
 .eslintignore
+*.test.js
+**/*.test.js
