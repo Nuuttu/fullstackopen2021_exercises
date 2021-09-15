@@ -51,7 +51,7 @@ blogsRouter.post('/', userExtractor, async (request, response, next) => {
   }
 })
 
-/* ADD LIKE asdasd */
+/* ADD LIKE working */
 blogsRouter.put('/:id', async (request, response, next) => {
   
   try {
@@ -75,7 +75,7 @@ blogsRouter.put('/:id', async (request, response, next) => {
 })
 
 
-/* DELETE BLOG should work*/ 
+/* DELETE BLOG works*/ 
 blogsRouter.delete('/:id', userExtractor, async (request, response, next) => {
   try {
     const user = request.user

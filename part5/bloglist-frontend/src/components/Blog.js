@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
-
-
-const Blog = ({blog, addLike, deleteBlog, user}) => {
-  const [ showInfo, setShowInfo ] = useState(false)
+const Blog = ({ blog, addLike, deleteBlog, user }) => {
+  const [showInfo, setShowInfo] = useState(false)
   const changeShowInfo = () => {
     showInfo === false ? setShowInfo(true) : setShowInfo(false)
   }
@@ -27,16 +26,17 @@ const Blog = ({blog, addLike, deleteBlog, user}) => {
             </tr>
             <tr>
               <th>author</th>
-              <td>{blog.author}</td>  
+              <td>{blog.author}</td>
             </tr>
-            {user !== null && 
-            <tr>
-              <th>
-              </th>
-              <td>
-              <button onClick={() => deleteBlog(blog)}>Delete</button>
-              </td>
-            </tr>
+            {/** Could use more intrique method for checking if to show the button */}
+            {user.username === blog.user.username &&
+              <tr>
+                <th>
+                </th>
+                <td>
+                  <button onClick={() => deleteBlog(blog)}>Delete</button>
+                </td>
+              </tr>
             }
           </tbody>
         </table>
@@ -45,15 +45,23 @@ const Blog = ({blog, addLike, deleteBlog, user}) => {
   }
 
   return (
-  <div>
-    <div className="blogSpace">
-      {blog.title} 
-      <button style={{float: "right"}} onClick={changeShowInfo}>
-        {showInfo === false ? "view details" : "close"}
-      </button>
-    </div>  
+    <div>
+      <div className='blogSpace'>
+        {blog.title}
+        <button style={{ float: 'right' }} onClick={changeShowInfo}>
+          {showInfo === false ? 'view details' : 'close'}
+        </button>
+      </div>
       {showInfo === false ? null : blogInfo()}
-  </div>
-)}
+    </div>
+  )
+}
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  addLike: PropTypes.func.isRequired,
+  deleteBlog: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+}
 
 export default Blog

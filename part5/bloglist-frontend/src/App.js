@@ -7,9 +7,6 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 
-
-
-
 const App = () => {
   const [blogs, setBlogs] = useState([])
 
@@ -18,22 +15,21 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
-  const [loginVisible, setLoginVisible] = useState(false)
-
+  /* const [loginVisible, setLoginVisible] = useState(false) */
 
   useEffect(() => {
     blogService.getAll()
       .then(blogs => {
-        setBlogs(blogs.sort(function(a, b) { return b.likes - a.likes; }))
+        setBlogs(blogs.sort(function (a, b) { return b.likes - a.likes }))
       })
       .catch(error => {
-        console.log('fail', error);
+        console.log('fail', error)
         setErrorMessage(
-          `couldn't get data from server`
+          'couldn\'t get data from server'
         )
         setTimeout(() => {
           setErrorMessage(null)
-        }, 5000);
+        }, 5000)
       })
   }, [])
 
@@ -84,7 +80,7 @@ const App = () => {
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
-    window.location.reload();
+    window.location.reload()
   }
 
   const blogFormRef = useRef()
@@ -119,20 +115,20 @@ const App = () => {
     blogService
       .create(blogObject)
       .catch(error => {
-        console.log('fail', error);
+        console.log('fail', error)
         setErrorMessage(
           `failed to save blog. << ${error} >>`
         )
         setTimeout(() => {
           setErrorMessage(null)
-        }, 5000);
+        }, 5000)
       })
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
         setSuccessMessage(`added blog - ${returnedBlog.title} - successfully.`)
         setTimeout(() => {
           setSuccessMessage(null)
-        }, 5000);
+        }, 5000)
       })
 
   }
@@ -150,13 +146,13 @@ const App = () => {
     blogService
       .update(blogObject.id, bo)
       .catch(error => {
-        console.log('fail', error);
+        console.log('fail', error)
         setErrorMessage(
           `failed to add like to the blog. << ${error} >>`
         )
         setTimeout(() => {
           setErrorMessage(null)
-        }, 5000);
+        }, 5000)
       })
       .then(
         setBlogs(
@@ -172,21 +168,29 @@ const App = () => {
       blogService
         .deleteBlog(blogObject.id)
         .catch(error => {
-          console.log('fail', error);
+          console.log('fail', error)
           setErrorMessage(
             `failed to delete the blog. << ${error} >>`
           )
           setTimeout(() => {
             setErrorMessage(null)
-          }, 5000);
+          }, 5000)
         })
         .then(b => {
           console.log(b)
-          setBlogs(blogs.filter(blog => blog.id !== b.id))
+          try {
+            setBlogs(blogs.filter(blog => blog.id !== b.id))
+          } catch (e) {
+            console.log('error', e)
+            setErrorMessage('you don\'t have rights to delete this blog')
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
+          }
           setSuccessMessage(`deleted blog ${blogObject.title} successfully.`)
           setTimeout(() => {
             setSuccessMessage(null)
-          }, 3000);
+          }, 3000)
         })
     }
   }

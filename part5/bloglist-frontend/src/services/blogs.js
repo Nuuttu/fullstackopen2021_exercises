@@ -21,13 +21,10 @@ const create = async newObject => {
 }
 
 const update = async (id, newObject) => {
-  /** no authorization required atm 
-   * 
-   * 
-   * 
+  /** no authorization required atm
   */
-  
-  const putUrl = baseUrl + "/" + id
+
+  const putUrl = baseUrl + '/' + id
   console.log('newobject from blogs.js')
   console.log(newObject)
   const response = await axios.put(putUrl, newObject)
@@ -43,9 +40,9 @@ const update = async (id, newObject) => {
 
 const deleteBlog = async (id) => {
   const config = {
-    headers: {Authorization: token },
+    headers: { Authorization: token },
   }
-  const url = baseUrl + "/" + id
+  const url = baseUrl + '/' + id
   const response = await axios.delete(url, config)
   return response.data
 }
