@@ -29,7 +29,8 @@ const Blog = ({ blog, addLike, deleteBlog, user }) => {
               <td>{blog.author}</td>
             </tr>
             {/** Could use more intrique method for checking if to show the button */}
-            {user.username === blog.user.username &&
+            {user !== null &&
+              user.username === blog.user.username &&
               <tr>
                 <th>
                 </th>

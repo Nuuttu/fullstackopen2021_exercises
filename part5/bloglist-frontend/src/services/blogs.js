@@ -23,15 +23,9 @@ const create = async newObject => {
 const update = async (id, newObject) => {
   /** no authorization required atm
   */
-
   const putUrl = baseUrl + '/' + id
-  console.log('newobject from blogs.js')
-  console.log(newObject)
   const response = await axios.put(putUrl, newObject)
-  console.log('resonse.data from blogs.js')
-  console.log(response.data)
   return response.data
-
   /*
   const request = axios.put(`${ baseUrl } /${id}`, newObject)
   return request.then(response => response.data)
