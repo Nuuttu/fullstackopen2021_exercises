@@ -18,7 +18,7 @@ const Blog = ({ blog, addLike, deleteBlog, user }) => {
             </tr>
             <tr>
               <th className='thlikes'>Likes {blog.likes}</th>
-              <td><button onClick={() => addLike(blog)}>Like</button></td>
+              <td><button className='likeButton' onClick={() => addLike(blog)}>Like</button></td>
             </tr>
             <tr>
               <th>url</th>

@@ -4,6 +4,7 @@ module.exports = {
     'node': true,
     'commonjs': true,
     'es2021': true,
+    'cypress/globals': true
   },
   'extends': [
     'eslint:recommended',
@@ -14,6 +15,9 @@ module.exports = {
     'ecmaVersion': 12,
     'sourceType': 'module',
   },
+  'plugins': [
+    'react', 'jest', 'cypress'
+  ],
   'rules': {
     'react/jsx-uses-react': 'error',
     'react/jsx-uses-vars': 'error',

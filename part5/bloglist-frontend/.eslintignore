@@ -4,3 +4,4 @@ build
 .eslintignore
 *.test.js
 **/*.test.js
+**/commands.js
