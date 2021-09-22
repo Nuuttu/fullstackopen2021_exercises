@@ -1,12 +1,13 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+/* import { useDispatch } from 'react-redux' */
 import { filterChange } from '../reducers/filterReducer'
+import { connect } from 'react-redux'
 
-const FilterForm = () => {
-  const dispatch = useDispatch()
+const FilterForm = (props) => {
+  /* const dispatch = useDispatch() */
 
   const handleFilterChange = (event) => {
-    dispatch(filterChange(event.target.value))
+    props.filterChange(event.target.value)
   }
 
   return (
@@ -19,4 +20,8 @@ const FilterForm = () => {
   )
 }
 
+/*
 export default FilterForm
+*/
+
+export default connect(null, { filterChange })(FilterForm)

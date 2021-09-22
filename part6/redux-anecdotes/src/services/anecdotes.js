@@ -7,7 +7,6 @@ const getAll = () => {
 }
 
 const create = async (content) => {
-  console.log('contgent', content)
  const object = { content: content, votes: 0 }
  const response = await axios.post(baseUrl, object)
  return response.data

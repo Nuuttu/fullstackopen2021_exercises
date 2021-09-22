@@ -23,11 +23,14 @@ const notificationSet = text => {
   }
 }
 
+var timer = 0
 export const setNotification = (text, time) => {
   return dispatch => {
     dispatch(notificationSet(text))
-    setTimeout(() => {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
       dispatch(hideNotification())
+      
     }, time*1000)
   }
 }
