@@ -14,12 +14,24 @@ const useField = (type) => {
     onChange
   }
 }
-
+// https://restcountries.com/v3.1/name/{name}?fullText=true
 const useCountry = (name) => {
   const [country, setCountry] = useState(null)
+  var url = 'https://restcountries.com/v2/name/' + name + '?fullText=true'
 
-  useEffect(() => {})
+  useEffect(() => {
+    axios
+    .get(url)
+    .then(response => {
+      setCountry({data: response.data[0],
+      found: true})
+    })
+    .catch((e) => {
+      setCountry({found: false})
+    })
+  }, [url])
 
+  
   return country
 }
 
@@ -35,7 +47,6 @@ const Country = ({ country }) => {
       </div>
     )
   }
-
   return (
     <div>
       <h3>{country.data.name} </h3>
@@ -48,6 +59,7 @@ const Country = ({ country }) => {
 
 const App = () => {
   const nameInput = useField('text')
+ 
   const [name, setName] = useState('')
   const country = useCountry(name)
 

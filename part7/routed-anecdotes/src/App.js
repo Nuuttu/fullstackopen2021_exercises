@@ -55,7 +55,7 @@ const Anecdote = ({ anecdotes }) => {
       <p>{a.author}</p>
       <p>{a.info}</p>
       <p>{a.votes}</p>
-      <p><Link to='/anecdotes' >BACK</Link></p>
+      <p><Link to='/anecdotes'>BACK</Link></p>
     </div>
   )
 }
@@ -73,13 +73,10 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
   const history = useHistory()
-
   
   const [ con, resetCon ] = useField('text')
   const [ aut, resetAut ] = useField('text')
   const [ inf, resetInf ] = useField('text')
-
-  
 
   const handleSubmit = (e) => {
     e.preventDefault()
