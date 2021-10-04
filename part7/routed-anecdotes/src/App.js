@@ -3,6 +3,8 @@ import {
   BrowserRouter as Router,
   Switch, Route, Link, useParams, useHistory, Redirect
 } from "react-router-dom"
+import  { useAnotherHook, useField } from './hooks'
+
 
 const Menu = () => {
   const padding = {
@@ -46,7 +48,6 @@ const About = () => (
 
 const Anecdote = ({ anecdotes }) => {
   const id = useParams().id
-  console.log('id', id)
   const a = anecdotes.find(a => a.id === id)
   return (
     <div>
@@ -73,16 +74,28 @@ const CreateNew = (props) => {
   const [info, setInfo] = useState('')
   const history = useHistory()
 
+  
+  const [ con, resetCon ] = useField('text')
+  const [ aut, resetAut ] = useField('text')
+  const [ inf, resetInf ] = useField('text')
+
+  
 
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
-      content,
-      author,
-      info,
+      content: con.value,
+      author: aut.value,
+      info: inf.value,
       votes: 0
     })
     history.push('/anecdotes')
+  }
+
+  const resett = () => {
+    resetCon()
+    resetAut()
+    resetInf()
   }
 
   return (
@@ -91,32 +104,33 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input {...con} />
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input {...aut} />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e) => setInfo(e.target.value)} />
+          <input {...inf} />
         </div>
         <button>create</button>
+        
       </form>
+      <button onClick={() => resett()}>reset</button>
     </div>
   )
 
 }
 
 const Notification = props => {
-  console.log('title', props.content)
   const t = props.content
   const text = 'a new anecdote ' + t
   return (
   t !== '' ?
       <div>
-      <p>{text}</p>
-    </div>
+        <p>{text}</p>
+      </div>
     : null
   )
 }
@@ -140,6 +154,7 @@ const App = () => {
   ])
 
   const [notification, setNotification] = useState('')
+
 
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
