@@ -1,0 +1,54 @@
+h1 {
+  color: green;
+}
+
+.error {
+  color: red;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.success {
+  color: green;
+  background: lightgreen;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.blogSpace {
+  border: 2px solid red;
+  border-radius: 5px;
+  padding: 3px;
+  width: 60%;
+  margin: 2px;
+  word-wrap: break-word;
+}
+
+table {
+  table-layout: fixed;
+  width: 50%;
+  border-collapse: collapse;
+  border: 2px solid pink;
+  border-radius: 5px;
+  word-wrap: break-word;
+}
+
+thead th:nth-child(1) {
+  width: 30%;
+}
+
+thead th:nth-child(2) {
+  width: 30%;
+}
+
+
+th, td {
+  padding: 10px;
+}
