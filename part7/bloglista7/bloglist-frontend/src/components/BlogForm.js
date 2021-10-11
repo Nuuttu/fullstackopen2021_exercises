@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
 
 const BlogForm = ({ createBlog }) => {
+  const dispatch = useDispatch()
+
   const [newBlog, setNewBlog] = useState({
     title: '',
     author: '',

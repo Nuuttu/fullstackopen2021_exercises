@@ -11,7 +11,7 @@ import Togglable from './components/Togglable'
 import BlogList from './components/BlogList'
 
 import { setNotification } from './reducers/notificationReducer'
-import { getBlogs } from './reducers/blogReducer'
+import { getBlogs, addBlog } from './reducers/blogReducer'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -102,6 +102,8 @@ const App = () => {
 
   const createBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility()
+    dispatch(addBlog(blogObject))
+    /*
     blogService
       .create(blogObject)
       .catch(error => {
@@ -112,8 +114,9 @@ const App = () => {
         setBlogs(blogs.concat(returnedBlog))
         dispatch(setNotification(`added blog - ${returnedBlog.title} - successfully.`, 'success', 4))
       })
-
+    */
   }
+  
   /**
   const addLike = (blogObject) => {
     const bo = {

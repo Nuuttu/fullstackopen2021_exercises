@@ -1,12 +1,54 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import { likeBlog, removeBlog } from '../reducers/blogReducer'
+import { setNotification } from '../reducers/notificationReducer'
+import blogService from '../services/blogs'
 
-const Blog = ({ blog, addLike, deleteBlog, user }) => {
+const Blog = ({ blog, user }) => {
+  const dispatch = useDispatch()
+
   const [showInfo, setShowInfo] = useState(false)
   const changeShowInfo = () => {
     showInfo === false ? setShowInfo(true) : setShowInfo(false)
   }
 
+
+  const addLike = (blogObject) => {
+    const bo = {
+      title: blogObject.title,
+      author: blogObject.author,
+      user: blogObject.user.id,
+      url: blogObject.url,
+      likes: blogObject.likes,
+    }
+    const id = blogObject.id
+    dispatch(likeBlog(id, bo))
+  }
+
+  const deleteBlog = (blogObject) => {
+    if (window.confirm(`are you sure you wannu delete ${blogObject.title}?`)) {
+      dispatch(removeBlog(blogObject))
+      /*
+      blogService
+        .deleteBlog(blogObject.id)
+        .catch(error => {
+          console.log('fail', error)
+          dispatch(setNotification(`failed to delete the blog. << ${error} >>`, 'error', 4))
+        })
+        .then(b => {
+          console.log('deleted', b)
+          try {
+            //setBlogs(blogs.filter(blog => blog.id !== b.id))
+          } catch (e) {
+            console.log('error', e)
+            dispatch(setNotification('you don\'t have rights to delete this blog', 'error', 4))
+          }
+          dispatch(setNotification(`deleted blog ${blogObject.title} successfully.`, 'success', 4))
+        })
+        */
+    }
+  }
 
   const blogInfo = () => {
     return (

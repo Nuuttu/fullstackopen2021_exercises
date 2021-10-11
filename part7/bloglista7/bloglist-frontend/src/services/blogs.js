@@ -22,6 +22,9 @@ const create = async newObject => {
 
 const update = async (id, newObject) => {
   /** no authorization required atm
+  const config = {
+    headers: { Authorization: token },
+  }
   */
   const putUrl = baseUrl + '/' + id
   const response = await axios.put(putUrl, newObject)
