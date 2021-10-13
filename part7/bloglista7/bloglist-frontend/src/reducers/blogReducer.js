@@ -29,7 +29,6 @@ export const addBlog = (content) => {
   }
 }
 
-// OTA MALLIA TÄSTÄ
 export const likeBlog = (id, bo) => {
   return async dispatch => {
     try{
@@ -49,28 +48,17 @@ export const likeBlog = (id, bo) => {
 
 export const removeBlog = (blogObject) => {
   return async dispatch => {
-    const deletedBlog = blogService.deleteBlog(blogObject.id)
-      .catch(error => {
-        console.log('fail', error)
-        dispatch(setNotification(`failed to delete the blog. << ${error} >>`, 'error', 4))
+    try{
+      blogService.deleteBlog(blogObject.id)
+      dispatch({
+        type: 'DELETE',
+        data: blogObject,
       })
-      .then(b => {
-        console.log('deleted', b)
-        try {
-          //setBlogs(blogs.filter(blog => blog.id !== b.id))
-        } catch (e) {
-          console.log('error', e)
-          dispatch(setNotification('you don\'t have rights to delete this blog', 'error', 4))
-        }
-        dispatch(setNotification(`deleted blog ${blogObject.title} successfully.`, 'success', 4))
-      })
-
-    console.log('dedleldeld')
-    dispatch({
-      type: 'DELETE',
-      data: blogObject,
-    })
-
+      dispatch(setNotification(`succesfully deleted blog >> ${blogObject.title} <<`, 'success', 5))
+    } catch (error) {
+      console.log('error', error)
+      dispatch(setNotification(`failed to delete the blog. << ${error} >>`, 'error', 4))
+    }
   }
 }
 

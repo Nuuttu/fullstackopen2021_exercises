@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { addBlog } from '../reducers/blogReducer'
+import Togglable from './Togglable'
 
-const BlogForm = ({ createBlog }) => {
+const BlogForm = () => {
   const dispatch = useDispatch()
 
   const [newBlog, setNewBlog] = useState({
@@ -16,61 +17,73 @@ const BlogForm = ({ createBlog }) => {
     setNewBlog({ ...newBlog, [event.target.id]: event.target.value })
   }
 
-  const addBlog = (event) => {
+
+
+  const formDiv = () => {
+    return (
+      <div className='blogFormDiv'>
+        <h2>Add a blog</h2>
+        <form onSubmit={createNewBlog}>
+          <div>
+            title
+            <input
+              type='text'
+              id='title'
+              name='title'
+              value={newBlog.title}
+              required
+              onChange={handleBlogInputChange}
+            ></input>
+          </div>
+          <div>
+            author
+            <input
+              type='text'
+              id='author'
+              name='author'
+              value={newBlog.author}
+              required
+              onChange={handleBlogInputChange}
+            ></input>
+          </div>
+          <div>
+            url
+            <input
+              type='text'
+              id='url'
+              name='url'
+              value={newBlog.url}
+              required
+              onChange={handleBlogInputChange}
+            ></input>
+          </div>
+
+          <button type='submit'>save blog</button>
+        </form>
+      </div>
+    )
+  }
+
+  const blogFormRef = useRef()
+
+  const createNewBlog = (event) => {
     event.preventDefault()
-    createBlog(newBlog)
+    dispatch(addBlog(newBlog))
     setNewBlog({
       title: '',
       author: '',
       url: '',
       user: '',
     })
+    blogFormRef.current.toggleVisibility()
   }
 
   return (
-
-    <div className='blogFormDiv'>
-      <h2>Add a blog</h2>
-      <form onSubmit={addBlog}>
-        <div>
-          title
-          <input
-            type='text'
-            id='title'
-            name='title'
-            required
-            onChange={handleBlogInputChange}
-          ></input>
-        </div>
-        <div>
-          author
-          <input
-            type='text'
-            id='author'
-            name='author'
-            required
-            onChange={handleBlogInputChange}
-          ></input>
-        </div>
-        <div>
-          url
-          <input
-            type='text'
-            id='url'
-            name='url'
-            required
-            onChange={handleBlogInputChange}
-          ></input>
-        </div>
-
-        <button type='submit'>save blog</button>
-      </form>
-    </div>
+    <Togglable buttonLabel='create new blog' ref={blogFormRef} >
+      {formDiv()}
+    </Togglable>
   )
 }
 
-BlogForm.propTypes = {
-  createBlog: PropTypes.func.isRequired,
-}
 
 export default BlogForm

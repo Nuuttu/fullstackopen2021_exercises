@@ -11,12 +11,10 @@ import Togglable from './components/Togglable'
 import BlogList from './components/BlogList'
 
 import { setNotification } from './reducers/notificationReducer'
-import { getBlogs, addBlog } from './reducers/blogReducer'
+import { getBlogs } from './reducers/blogReducer'
 
 const App = () => {
   const dispatch = useDispatch()
-
-  const [blogs, setBlogs] = useState([])
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -55,7 +53,8 @@ const App = () => {
       setUsername('')
       setPassword('')
       dispatch(setNotification('logged in successfully', 'success', 4))
-    } catch (exception) {
+    } catch (e) {
+      console.log('error', e)
       dispatch(setNotification('wrong credentials', 'error', 4))
     }
   }
@@ -73,7 +72,6 @@ const App = () => {
     window.location.reload()
   }
 
-  const blogFormRef = useRef()
   const loginFormRef = useRef()
 
   const loginForm = () => {
@@ -90,80 +88,6 @@ const App = () => {
     )
   }
 
-  const blogForm = () => {
-    return (
-      <Togglable buttonLabel='create new blog' ref={blogFormRef} >
-        <BlogForm
-          createBlog={createBlog}
-        />
-      </Togglable>
-    )
-  }
-
-  const createBlog = (blogObject) => {
-    blogFormRef.current.toggleVisibility()
-    dispatch(addBlog(blogObject))
-    /*
-    blogService
-      .create(blogObject)
-      .catch(error => {
-        console.log('fail', error)
-        dispatch(setNotification(`failed to save blog. << ${error} >>`, 'error', 4))
-      })
-      .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-        dispatch(setNotification(`added blog - ${returnedBlog.title} - successfully.`, 'success', 4))
-      })
-    */
-  }
-  
-  /**
-  const addLike = (blogObject) => {
-    const bo = {
-      title: blogObject.title,
-      author: blogObject.author,
-      user: blogObject.user.id,
-      url: blogObject.url,
-      likes: blogObject.likes + 1,
-    }
-
-    blogService
-      .update(blogObject.id, bo)
-      .catch(error => {
-        console.log('fail', error)
-        dispatch(setNotification(`failed to add like to the blog. << ${error} >>`, 'error', 4))
-      })
-      .then(
-        setBlogs(
-          blogs.map(b =>
-            b.id === blogObject.id ? { ...b, likes: bo.likes } : b
-          )
-        )
-      )
-      .then(dispatch(setNotification('Liked', 'success', 2)))
-  }
-
-  const deleteBlog = (blogObject) => {
-    if (window.confirm(`are you sure you wannu delete ${blogObject.title}?`)) {
-      blogService
-        .deleteBlog(blogObject.id)
-        .catch(error => {
-          console.log('fail', error)
-          dispatch(setNotification(`failed to delete the blog. << ${error} >>`, 'error', 4))
-        })
-        .then(b => {
-          console.log(b)
-          try {
-            setBlogs(blogs.filter(blog => blog.id !== b.id))
-          } catch (e) {
-            console.log('error', e)
-            dispatch(setNotification('you don\'t have rights to delete this blog', 'error', 4))
-          }
-          dispatch(setNotification(`deleted blog ${blogObject.title} successfully.`, 'success', 4))
-        })
-    }
-  }
-*/
   return (
     <div>
       <Notification />
@@ -171,7 +95,7 @@ const App = () => {
 
       {user === null && loginForm()}
       {user !== null && logoutButton()}
-      {user !== null && blogForm()}
+      {user !== null && <BlogForm />}
 
       <BlogList user={user}/>
     </div>
