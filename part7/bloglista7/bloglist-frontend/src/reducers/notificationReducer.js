@@ -1,15 +1,3 @@
-const notificationReducer = (state = null, action) => {
-
-  switch (action.type) {
-  case 'HIDE':
-    return null
-  case 'SET_TEXT':
-    return action.data
-  default:
-    return state
-  }
-}
-
 const notificationHide = () => {
   return {
     type: 'HIDE'
@@ -35,6 +23,18 @@ export const setNotification = (text, theme, time) => {
       dispatch(notificationHide())
 
     }, time * 1000)
+  }
+}
+
+const notificationReducer = (state = null, action) => {
+
+  switch (action.type) {
+  case 'HIDE':
+    return null
+  case 'SET_TEXT':
+    return action.data
+  default:
+    return state
   }
 }
 

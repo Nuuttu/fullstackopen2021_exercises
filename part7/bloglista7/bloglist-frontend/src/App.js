@@ -1,103 +1,59 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-
-import blogService from './services/blogs'
-import loginService from './services/login'
 import Notification from './components/Notification'
-import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
-import Togglable from './components/Togglable'
 import BlogList from './components/BlogList'
 
-import { setNotification } from './reducers/notificationReducer'
 import { getBlogs } from './reducers/blogReducer'
+import { getUsers } from './reducers/usersReducer'
+import { initializeUser } from './reducers/userReducer'
+
+
+import { Router, Switch, Route, Link, useRouteMatch } from 'react-router-dom'
+import UserList from './components/UserList'
+import UserInfo from './components/UserInfo'
+import BlogInfo from './components/BlogInfo'
+import NavigationMenu from './components/NavigationMenu'
 
 const App = () => {
   const dispatch = useDispatch()
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
+  // const [username, setUsername] = useState('')
+  // const [password, setPassword] = useState('')
+  // const [user, setUser] = useState(null)
   /* const [loginVisible, setLoginVisible] = useState(false) */
-
-
 
   useEffect(() => {
     dispatch(getBlogs())
+    dispatch(getUsers())
   }, [dispatch])
 
-
-
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      blogService.setToken(user.token)
-    }
+    dispatch(initializeUser())
   }, [])
-
-
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    try {
-      const user = await loginService.login({
-        username, password,
-      })
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      )
-      blogService.setToken(user.token)
-      setUser(user)
-      setUsername('')
-      setPassword('')
-      dispatch(setNotification('logged in successfully', 'success', 4))
-    } catch (e) {
-      console.log('error', e)
-      dispatch(setNotification('wrong credentials', 'error', 4))
-    }
-  }
-
-  const logoutButton = () => {
-    return (
-      <div>
-        <p>logged in as <b>{user.name}</b> <button onClick={() => handleLogout()}>logout</button></p>
-      </div>
-    )
-  }
-
-  const handleLogout = () => {
-    window.localStorage.removeItem('loggedBlogappUser')
-    window.location.reload()
-  }
-
-  const loginFormRef = useRef()
-
-  const loginForm = () => {
-    return (
-      <Togglable buttonLabel='login' ref={loginFormRef}>
-        <LoginForm
-          username={username}
-          password={password}
-          handleUsernameChange={({ target }) => setUsername(target.value)}
-          handlePasswordChange={({ target }) => setPassword(target.value)}
-          handleSubmit={handleLogin}
-        />
-      </Togglable>
-    )
-  }
 
   return (
     <div>
+      <NavigationMenu /> 
       <Notification />
       <h1>Blogs</h1>
-
-      {user === null && loginForm()}
-      {user !== null && logoutButton()}
-      {user !== null && <BlogForm />}
-
-      <BlogList user={user}/>
+  
+      <Switch>
+        <Route path='/users/:id'>
+          <UserInfo />
+        </Route>
+        <Route path='/users'>
+          <UserList />
+        </Route>
+        <Route path='/blogs/:id'>
+          <BlogInfo />
+        </Route>
+        <Route path='/'>
+          <BlogForm />
+          <BlogList />
+        </Route>
+      </Switch>
     </div>
   )
 

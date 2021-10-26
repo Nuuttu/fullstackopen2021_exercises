@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { likeBlog, removeBlog } from '../reducers/blogReducer'
-import { setNotification } from '../reducers/notificationReducer'
-import blogService from '../services/blogs'
+import { Link } from 'react-router-dom'
 
 const Blog = ({ blog, user }) => {
   const dispatch = useDispatch()
@@ -90,7 +89,7 @@ const Blog = ({ blog, user }) => {
   return (
     <div className='blogDiv'>
       <div className='blogSpace'>
-        {blog.title}
+        <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
         <button style={{ float: 'right' }} onClick={changeShowInfo}>
           {showInfo === false ? 'view details' : 'close'}
         </button>

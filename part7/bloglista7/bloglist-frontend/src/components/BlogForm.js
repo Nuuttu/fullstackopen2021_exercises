@@ -1,10 +1,11 @@
 import React, { useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addBlog } from '../reducers/blogReducer'
 import Togglable from './Togglable'
 
 const BlogForm = () => {
   const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
 
   const [newBlog, setNewBlog] = useState({
     title: '',
@@ -17,10 +18,24 @@ const BlogForm = () => {
     setNewBlog({ ...newBlog, [event.target.id]: event.target.value })
   }
 
+  const blogFormRef = useRef()
 
+  const createNewBlog = (event) => {
+    event.preventDefault()
+    dispatch(addBlog(newBlog))
+    setNewBlog({
+      title: '',
+      author: '',
+      url: '',
+      user: '',
+    })
+    blogFormRef.current.toggleVisibility()
+  }
 
-  const formDiv = () => {
-    return (
+  if (user === null) return null
+
+  return (
+    <Togglable buttonLabel='create a new blog' ref={blogFormRef} >
       <div className='blogFormDiv'>
         <h2>Add a blog</h2>
         <form onSubmit={createNewBlog}>
@@ -61,26 +76,6 @@ const BlogForm = () => {
           <button type='submit'>save blog</button>
         </form>
       </div>
-    )
-  }
-
-  const blogFormRef = useRef()
-
-  const createNewBlog = (event) => {
-    event.preventDefault()
-    dispatch(addBlog(newBlog))
-    setNewBlog({
-      title: '',
-      author: '',
-      url: '',
-      user: '',
-    })
-    blogFormRef.current.toggleVisibility()
-  }
-
-  return (
-    <Togglable buttonLabel='create new blog' ref={blogFormRef} >
-      {formDiv()}
     </Togglable>
   )
 }
