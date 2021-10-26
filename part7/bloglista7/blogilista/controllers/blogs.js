@@ -41,6 +41,7 @@ blogsRouter.post('/', userExtractor, async (request, response, next) => {
       user: user,
       url: body.url,
       likes: body.likes,
+      comments: body.comments
     })
     const savedBlog = await blog.save()
     user.blogs = user.blogs.concat(savedBlog._id)
@@ -48,6 +49,29 @@ blogsRouter.post('/', userExtractor, async (request, response, next) => {
     response.json(savedBlog.toJSON())
   } catch (exception) {
     next(exception)
+  }
+})
+
+// ADD COMMENT
+blogsRouter.post('/:id/comment', async (request, response, next) => {
+  console.log('request', request.body)
+  console.log('id', request.params.id)
+  const body = request.body
+  const blogById = await Blog.findById(request.params.id)
+  const comments = blogById.comments.concat(body.comment)
+  try{
+    const commentedBlog = {
+      title: blogById.title,
+      author: blogById.author,
+      user: blogById.user,
+      url: blogById.url,
+      likes: blogById.likes,
+      comments: comments
+    }
+    const blog = await Blog.findByIdAndUpdate(request.params.id, commentedBlog, { new: true })
+    response.json(blog.toJSON())
+  } catch (e) {
+    next(e)
   }
 })
 
@@ -65,6 +89,7 @@ blogsRouter.put('/:id', async (request, response, next) => {
       user: existingUser,
       url: body.url,
       likes: body.likes + 1,
+      comments: body.comments
     }
     const blog = await Blog.findByIdAndUpdate(request.params.id, likedBlog, { new: true })
     blog.user = existingUser

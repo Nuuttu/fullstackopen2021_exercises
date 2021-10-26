@@ -12,7 +12,7 @@ const Blog = ({ blog, user }) => {
     showInfo === false ? setShowInfo(true) : setShowInfo(false)
   }
 
-
+  // THIS IS A MONSTROSITY
   const addLike = (blogObject) => {
     const bo = {
       title: blogObject.title,
@@ -20,6 +20,7 @@ const Blog = ({ blog, user }) => {
       user: blogObject.user.id,
       url: blogObject.url,
       likes: blogObject.likes,
+      comments: blogObject.comments
     }
     const id = blogObject.id
     dispatch(likeBlog(id, bo))

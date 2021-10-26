@@ -29,6 +29,10 @@ export const addBlog = (content) => {
   }
 }
 
+export const addCommentToBlog = (content) => {
+  // ASDASDASDASDASDASDASDASDASDASD HERE NEXT
+}
+
 export const likeBlog = (id, bo) => {
   return async dispatch => {
     try{
@@ -73,7 +77,8 @@ const initialBlogs = [
       'id': '6136075380e62f011097b082'
     },
     'url': '33',
-    'id': '6140b77dc303a8287c961c10'
+    'id': '6140b77dc303a8287c961c10',
+    'comments': 'dsdadasdads'
   }
 ]
 

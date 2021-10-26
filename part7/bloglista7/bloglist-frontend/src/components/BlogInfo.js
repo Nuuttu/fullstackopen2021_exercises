@@ -25,6 +25,7 @@ const BlogInfo = () => {
       user: blogObject.user.id,
       url: blogObject.url,
       likes: blogObject.likes,
+      comments: blogObject.comments
     }
     const id = blogObject.id
     dispatch(likeBlog(id, bo))
@@ -36,9 +37,8 @@ const BlogInfo = () => {
 
   return (
     <div>
-      
-      <table>
       <h2>{blog.title}</h2>
+      <table>
         <tbody>
           <tr>
             <th className='thlikes'>Likes {blog.likes}</th>
@@ -54,6 +54,14 @@ const BlogInfo = () => {
           </tr>
         </tbody>
       </table>
+      
+      <h3>Comments</h3>
+        {blog.comments !== null ? <ul>
+          {blog.comments.map((comment, i) => 
+          <li key={i}>{comment}</li>)} 
+        </ul> : <p>no comments</p> }
+     
+     
     </div>
   )
 

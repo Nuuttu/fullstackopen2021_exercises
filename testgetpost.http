@@ -1,4 +1,11 @@
 
+POST http://localhost:3003/api/blogs/61446677fb17f124a4eeaa63/comment
+Content-Type: application/json
+
+{
+  "comment": "asd"
+}
+###
 DELETE http://localhost:3003/api/blogs
 ###
 DELETE http://localhost:3003/api/blogs/6137508fb1fc450118321d21
