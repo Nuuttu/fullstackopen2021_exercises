@@ -7,6 +7,7 @@ import {
   useParams
 } from "react-router-dom"
 import { likeBlog } from "../reducers/blogReducer"
+import CommentForm from "./CommentForm"
 
 
 
@@ -30,6 +31,7 @@ const BlogInfo = () => {
     const id = blogObject.id
     dispatch(likeBlog(id, bo))
   }
+
 
   if (!blog) {
     return null
@@ -55,6 +57,8 @@ const BlogInfo = () => {
         </tbody>
       </table>
       
+      
+      <CommentForm blog={blog} />
       <h3>Comments</h3>
         {blog.comments !== null ? <ul>
           {blog.comments.map((comment, i) => 

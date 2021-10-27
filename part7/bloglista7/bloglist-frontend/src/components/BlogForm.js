@@ -1,3 +1,4 @@
+import { Button, TextField } from '@material-ui/core'
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addBlog } from '../reducers/blogReducer'
@@ -40,40 +41,40 @@ const BlogForm = () => {
         <h2>Add a blog</h2>
         <form onSubmit={createNewBlog}>
           <div>
-            title
-            <input
+            <TextField
+              label='title'
               type='text'
               id='title'
               name='title'
               value={newBlog.title}
               required
               onChange={handleBlogInputChange}
-            ></input>
+            ></TextField>
           </div>
           <div>
-            author
-            <input
+            <TextField
+              label='author'
               type='text'
               id='author'
               name='author'
               value={newBlog.author}
               required
               onChange={handleBlogInputChange}
-            ></input>
+            ></TextField>
           </div>
           <div>
-            url
-            <input
+            <TextField
+              label='url'
               type='text'
               id='url'
               name='url'
               value={newBlog.url}
               required
               onChange={handleBlogInputChange}
-            ></input>
+            ></TextField>
           </div>
 
-          <button type='submit'>save blog</button>
+          <Button variant='outlined' color='primary' type='submit'>save blog</Button>
         </form>
       </div>
     </Togglable>

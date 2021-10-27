@@ -16,6 +16,9 @@ import UserInfo from './components/UserInfo'
 import BlogInfo from './components/BlogInfo'
 import NavigationMenu from './components/NavigationMenu'
 
+import Container from '@material-ui/core/Container'
+import { Typography } from '@material-ui/core'
+
 const App = () => {
   const dispatch = useDispatch()
 
@@ -34,11 +37,16 @@ const App = () => {
   }, [])
 
   return (
-    <div>
+    <Container>
+    
+      
       <NavigationMenu /> 
       <Notification />
-      <h1>Blogs</h1>
-  
+
+      <Typography variant='h3'  gutterBottom>
+        Blogs
+      </Typography>
+      
       <Switch>
         <Route path='/users/:id'>
           <UserInfo />
@@ -54,7 +62,9 @@ const App = () => {
           <BlogList />
         </Route>
       </Switch>
-    </div>
+      
+    
+    </Container>
   )
 
 }

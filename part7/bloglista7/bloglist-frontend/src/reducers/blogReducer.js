@@ -29,8 +29,20 @@ export const addBlog = (content) => {
   }
 }
 
-export const addCommentToBlog = (content) => {
-  // ASDASDASDASDASDASDASDASDASDASD HERE NEXT
+export const addCommentToBlog = (blog, comment) => {
+  return async dispatch => {
+    try{
+      const commentedBlog = await blogService.comment(blog, comment)
+      dispatch(setNotification('added a comment', 'success', 3))
+      dispatch({
+        type: 'COMMENT',
+        data: commentedBlog
+      })
+    } catch (e) {
+      console.log('fail', e)
+      dispatch(setNotification(`failed to add a comment to the blog. << ${e} >>`, 'error', 4))
+    }
+  }
 }
 
 export const likeBlog = (id, bo) => {
@@ -44,7 +56,7 @@ export const likeBlog = (id, bo) => {
       })
     } catch (error) {
       console.log('fail', error)
-      dispatch(setNotification(`failed to add like to the blog. << ${error} >>`, 'error', 4))
+      dispatch(setNotification(`failed to add a like to the blog. << ${error} >>`, 'error', 4))
     }
 
   }
@@ -93,6 +105,8 @@ const blogReducer = (state = initialBlogs, action) => {
     return [...state, action.data]
   case 'DELETE':
     return state.filter(a => a.id !== action.data.id)
+  case 'COMMENT':
+    return state.map(blog => blog.id !== action.data.id ? blog : action.data)
   default:
     return state
   }

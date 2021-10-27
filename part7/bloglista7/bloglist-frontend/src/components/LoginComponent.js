@@ -9,6 +9,7 @@ import loginService from '../services/login'
 import { setNotification } from '../reducers/notificationReducer'
 import {  setLoggedUser } from '../reducers/userReducer'
 import { useDispatch, useSelector } from 'react-redux'
+import { Button } from '@material-ui/core'
 
 const LoginComponent = () => {
   const dispatch = useDispatch()
@@ -42,7 +43,7 @@ const LoginComponent = () => {
   const logoutButton = () => {
     return (
       <div>
-        <p>logged in as <b>{user.user.name}</b> <button onClick={() => handleLogout()}>logout</button></p>
+        <p>logged in as <b>{user.user.name}</b> <Button variant='outlined' onClick={() => handleLogout()}>logout</Button></p>
       </div>
     )
   }

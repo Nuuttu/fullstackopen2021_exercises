@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { likeBlog, removeBlog } from '../reducers/blogReducer'
 import { Link } from 'react-router-dom'
+import { Button, Table, TableBody, TableCell, TableRow } from '@material-ui/core'
 
 const Blog = ({ blog, user }) => {
   const dispatch = useDispatch()
@@ -53,47 +54,47 @@ const Blog = ({ blog, user }) => {
   const blogInfo = () => {
     return (
       <div>
-        <table>
-          <tbody>
-            <tr>
-              <th>title</th>
-              <td className='tdtitle'>{blog.title}</td>
-            </tr>
-            <tr>
-              <th className='thlikes'>Likes {blog.likes}</th>
-              <td><button className='likeButton' onClick={() => addLike(blog)}>Like</button></td>
-            </tr>
-            <tr>
-              <th>url</th>
-              <td className='tdurl'>{blog.url}</td>
-            </tr>
-            <tr>
-              <th>author</th>
-              <td className='tdauthor'>{blog.author}</td>
-            </tr>
+        <Table>
+          <TableBody>
+            <TableRow>
+              <TableCell>title</TableCell>
+              <TableCell >{blog.title}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Likes {blog.likes}</TableCell>
+              <TableCell><Button variant='outlined' color='primary' className='likeButton' onClick={() => addLike(blog)}>Like</Button></TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>url</TableCell>
+              <TableCell >{blog.url}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>author</TableCell>
+              <TableCell>{blog.author}</TableCell>
+            </TableRow>
             {user !== null &&
               user.user.username === blog.user.username &&
-              <tr>
-                <th>
-                </th>
-                <td>
-                  <button onClick={() => deleteBlog(blog)}>Delete</button>
-                </td>
-              </tr>
+              <TableRow>
+                <TableCell>
+                </TableCell>
+                <TableCell>
+                  <Button variant='outlined' type='submit' color='secondary' onClick={() => deleteBlog(blog)}>Delete</Button>
+                </TableCell>
+              </TableRow>
             }
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
     )
   }
 
   return (
-    <div className='blogDiv'>
-      <div className='blogSpace'>
+    <div >
+      <div >
         <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-        <button style={{ float: 'right' }} onClick={changeShowInfo}>
+        <Button variant='outlined' style={{ float: 'right' }} onClick={changeShowInfo}>
           {showInfo === false ? 'view details' : 'close'}
-        </button>
+        </Button>
       </div>
       {showInfo === false ? null : blogInfo()}
     </div>
