@@ -88,6 +88,7 @@ const typeDefs = gql`
   type Author {
     name: String
     born: Int
+    books: Int
     id: ID!
   }
 
@@ -102,14 +103,30 @@ const typeDefs = gql`
     authorCount: Int!
     allAuthors: [Author!]!
     bookCount: Int!
+    allBooks(author: String!): [Book]
+    findAuthor(name: String!): Author
   }
 `
+// EHKÄ BOOKS TYPE LISÄÄÄ
+
 
 const resolvers = {
   Query: {
     authorCount: () => authors.length,
     allAuthors: () => authors,
     bookCount: () => books.length,
+
+    findAuthor: (root, args) => 
+      authors.find(p => p.name === args.name),
+    allBooks: (root, args) => 
+      books.find(p => p.author === args.author),
+  },
+  Author: {
+    name: (root) => root.name,
+    books: (root) => {
+      const li = books.filter(p => p.author === root.name)
+      return li.length
+    },
   }
   
 }
