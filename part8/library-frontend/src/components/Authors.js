@@ -1,18 +1,14 @@
 import React, { useState } from 'react'
 import Select from 'react-select';
 
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-];
+
 
 const Authors = (props) => {
   const [name, setName] = useState('')
   const [born, setBorn] = useState('')
   const [selectedOption, setSelectedOption] = useState(null);
  
-
+ 
 
   if (!props.show) {
     return null
@@ -20,13 +16,21 @@ const Authors = (props) => {
 
   const authors = props.authors
 
+  let options = 
+    authors.map(a => { return {"value": a.name, "label": a.name}  })
+  
+
+  const handleOptionChange = (e) => {
+    console.log('e',e)
+    setSelectedOption(e.value)
+    setName(e.value)
+  }
+
   const submit = async (event) => {
     event.preventDefault()
-    console.log(name)
-    console.log(born)
-    console.log('update author...')
+    console.log('update author...', name, ' born: ', born)
     props.setBornTo({ variables: { name, born } })
-
+    //props.createBook({ variables: {title, published, author, genres}})
     setName('')
     setBorn('')
   }
@@ -63,8 +67,9 @@ const Authors = (props) => {
         <form onSubmit={submit}>
           <Select
             defaultValue={selectedOption}
-            onChange={selectedOption}
+            onChange={handleOptionChange}
             options={options}
+            
           />
           {/*
           <div>
@@ -79,6 +84,7 @@ const Authors = (props) => {
           <div>
             born
             <input
+              type='number'
               value={born}
               onChange={({ target }) => setBorn(parseInt(target.value, 10))}
             />
