@@ -1,7 +1,22 @@
-const { ApolloServer, gql } = require('apollo-server')
+const { ApolloServer, UserInputError, gql } = require('apollo-server')
 const { ApolloServerPluginLandingPageGraphQLPlayground } = require('apollo-server-core')
 const { UniqueDirectiveNamesRule } = require('graphql')
 const { v1: uuid } = require('uuid')
+
+const mongoose = require('mongoose')
+const Book = require('./models/book')
+const Author = require('./models/author')
+
+const MONGODB_URI = ''
+console.log('connecting to', MONGODB_URI)
+mongoose.connect(MONGODB_URI)
+  .then(() => {
+    console.log('connected to MongoDB')
+  })
+  .catch((error) => {
+    console.log('error connection to MongoDB:', error.message)
+  })
+
 
 let authors = [
   {
@@ -95,10 +110,10 @@ const typeDefs = gql`
   }
 
   type Book {
-    title: String
-    published: String
-    author: String
-    genres: [String]
+    title: String!
+    published: String!
+    author: Author!
+    genres: [String!]!
     id: ID!
   }
 
@@ -133,7 +148,9 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     authorCount: () => authors.length,
-    allAuthors: () => authors,
+    allAuthors: (root, args) => {
+      return authors
+    },
     bookCount: () => books.length,
     findBook: (root, args) => books.find(p => p.title === args.title),
     findAuthor: (root, args) => authors.find(p => p.name === args.name),
