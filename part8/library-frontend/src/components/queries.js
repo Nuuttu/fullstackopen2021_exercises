@@ -3,7 +3,7 @@ import { gql } from '@apollo/client'
 
 export const ALL_AUTHORS_BOOKS = gql`
 query {
-  allAuthors  {
+  allAuthors {
     name
     born
     bookCount
@@ -11,7 +11,7 @@ query {
   }
   allBooks {
     title
-    author
+    genres
     published
   }
 }
@@ -43,4 +43,12 @@ mutation setBornTo($name: String, $born: Int) {
     born
   }
 }
+`
+
+export const LOGIN = gql`
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password)  {
+      value
+    }
+  }
 `
