@@ -206,6 +206,12 @@ const resolvers = {
       return li.length
     }
   },
+  Book: {
+    author: async (root) => {
+      const au = await Author.findById(root.author)
+      return au
+    }
+  },
   Mutation: {
     addBook: async (root, args, { currentUser }) => {
       console.log("addbook")
@@ -216,7 +222,7 @@ const resolvers = {
     }
 
       const book = new Book({ ...args })
-      book.author = await Author.findOne({ name: args.author })
+      book.author = await Author.findOne({ name: args.author.name })
       if (book.author != null) {
         try {
           await book.save()
