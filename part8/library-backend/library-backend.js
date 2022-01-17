@@ -216,13 +216,13 @@ const resolvers = {
     addBook: async (root, args, { currentUser }) => {
       console.log("addbook")
 
-      
-    if (!currentUser) {
-      throw new AuthenticationError("not authenticated")
-    }
+
+      if (!currentUser) {
+        throw new AuthenticationError("not authenticated")
+      }
 
       const book = new Book({ ...args })
-      book.author = await Author.findOne({ name: args.author.name })
+      book.author = await Author.findOne({ name: args.author })
       if (book.author != null) {
         try {
           await book.save()
@@ -231,7 +231,8 @@ const resolvers = {
             invalidArgs: args,
           })
         }
-        return book
+        nBook = await Book.findOne({ title: args.title })
+        return nBook
       }
       console.log("error")
       return "errro"
@@ -263,7 +264,7 @@ const resolvers = {
         throw new AuthenticationError("not authenticated")
       }
 
-      const author = await Author.findOne({ name: args.name})
+      const author = await Author.findOne({ name: args.name })
       if (!author) {
         return null
       }
@@ -273,7 +274,7 @@ const resolvers = {
     },
     createUser: (root, args) => {
       const user = new User({ username: args.username, favoriteGenre: args.favoriteGenre })
-  
+
       return user.save()
         .catch(error => {
           throw new UserInputError(error.message, {
@@ -283,16 +284,16 @@ const resolvers = {
     },
     login: async (root, args) => {
       const user = await User.findOne({ username: args.username })
-  
-      if ( !user || args.password !== 'secret' ) {
+
+      if (!user || args.password !== 'secret') {
         throw new UserInputError("wrong credentials")
-      } 
-  
+      }
+
       const userForToken = {
         username: user.username,
         id: user._id,
       }
-  
+
       return { value: jwt.sign(userForToken, JWT_SECRET) }
     },
   }

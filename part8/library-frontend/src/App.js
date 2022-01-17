@@ -5,6 +5,7 @@ import Books from './components/Books'
 import LoginForm from './components/LoginForm'
 import NewBook from './components/NewBook'
 import { ALL_AUTHORS_BOOKS, CREATE_BOOK, SET_BORN_TO } from './components/queries'
+import Recommended from './components/recommended'
 
 
 const Notify = ({ errorMessage }) => {
@@ -87,6 +88,9 @@ const App = () => {
         {token &&
           <button onClick={() => setPage('add')}>add book</button>
         }
+        {token &&
+          <button onClick={() => setPage('recommended')}>recommended</button>
+        }
         {!token &&
           <button onClick={() => setPage('login')}>login</button>
         }
@@ -111,6 +115,12 @@ const App = () => {
       <NewBook
         createBook={createBook}
         show={page === 'add'}
+      />
+
+      <Recommended
+        token={token}
+        books={result.data.allBooks}
+        show={page === 'recommended'}
       />
 
       <LoginForm
