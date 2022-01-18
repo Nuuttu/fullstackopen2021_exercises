@@ -139,6 +139,7 @@ const typeDefs = gql`
     findAuthor(name: String!): Author
     findBook(title: String!): Book
     me: User
+    genreBooks(genre: String!): [Book]
   }
 
   type Mutation {
@@ -198,6 +199,10 @@ const resolvers = {
     me: (root, args, context) => {
       return context.currentUser
     },
+    genreBooks: async (root, args) => {
+      let books = await Book.find({})
+      return books.filter(b => (b.genres.includes(args.genre)))
+    },
   },
   Author: {
     bookCount: async (root) => {
@@ -227,9 +232,11 @@ const resolvers = {
         try {
           await book.save()
         } catch (e) {
+          console.log('e', e)
           throw new UserInputError(e.message, {
             invalidArgs: args,
           })
+
         }
         nBook = await Book.findOne({ title: args.title })
         return nBook

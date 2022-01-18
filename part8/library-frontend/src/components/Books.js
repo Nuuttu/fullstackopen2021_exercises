@@ -55,18 +55,18 @@ const Books = (props) => {
       </table>
       <div>
         {genres.map((g, i) =>
-          genre === g 
-          ? 
-          <button style={{color: 'red'}} key={i} onClick={() => {
-            if (genre === g) setGenre('')
-            else setGenre(g)
-          }}>{g}</button>
-          :
-          <button key={i} onClick={() => {
-            if (genre === g) setGenre('')
-            else setGenre(g)
-          }}>{g}</button>
-          
+          genre === g
+            ?
+            <button style={{ color: 'red' }} key={i} onClick={() => {
+              if (genre === g) setGenre('')
+              else setGenre(g)
+            }}>{g}</button>
+            :
+            <button key={i} onClick={() => {
+              if (genre === g) setGenre('')
+              else setGenre(g)
+            }}>{g}</button>
+
         )}
 
       </div>

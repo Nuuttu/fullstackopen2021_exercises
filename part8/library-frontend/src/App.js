@@ -2,9 +2,10 @@ import { useApolloClient, useMutation, useQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import Authors from './components/Authors'
 import Books from './components/Books'
+import GBooks from './components/GBooks'
 import LoginForm from './components/LoginForm'
 import NewBook from './components/NewBook'
-import { ALL_AUTHORS_BOOKS, CREATE_BOOK, SET_BORN_TO } from './components/queries'
+import { ALL_AUTHORS_BOOKS, CREATE_BOOK, SET_BORN_TO, USERS_FAVORITE_GENRE, GENRE_BOOKS } from './components/queries'
 import Recommended from './components/recommended'
 
 
@@ -27,6 +28,11 @@ const App = () => {
   const result = useQuery(ALL_AUTHORS_BOOKS, {
     pollInterval: 9000
   })
+  const userData = useQuery(USERS_FAVORITE_GENRE)
+  if (token) {
+
+  }
+
   const client = useApolloClient()
 
   const [error, setError] = useState(null)
@@ -42,7 +48,7 @@ const App = () => {
   const [createBook] = useMutation(CREATE_BOOK, {
     refetchQueries: [{ query: ALL_AUTHORS_BOOKS }],
     onError: (error) => {
-      setError(error.graphQLErrors[0].message)
+      //setError(error.graphQLErrors[0].message)
       console.log('errir', error)
     }
   })
@@ -78,6 +84,7 @@ const App = () => {
     }
    */
   console.log('resluts', result.data)
+  console.log('userdata', userData.data)
 
   return (
     <div>
@@ -85,6 +92,7 @@ const App = () => {
       <div>
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
+        <button onClick={() => setPage('gbooks')}>gbooks</button>
         {token &&
           <button onClick={() => setPage('add')}>add book</button>
         }
@@ -112,6 +120,11 @@ const App = () => {
         show={page === 'books'}
       />
 
+      <GBooks
+        books={result.data.allBooks}
+        show={page === 'gbooks'}
+      />
+
       <NewBook
         createBook={createBook}
         show={page === 'add'}
@@ -120,6 +133,7 @@ const App = () => {
       <Recommended
         token={token}
         books={result.data.allBooks}
+        favoriteGenre={userData.data.me.favoriteGenre}
         show={page === 'recommended'}
       />
 

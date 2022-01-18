@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 
 const Recommended = (props) => {
-  const [genre, setGenre] = useState('')
+  //console.log('genre', genre)
 
   if (!props.show) {
     return null
@@ -16,7 +16,7 @@ const Recommended = (props) => {
     <div>
       <h2>books</h2>
 
-  <p>books in your favorite genre: </p>
+      <p>books in your favorite genre: <b>{props.favoriteGenre}</b></p>
       <table>
         <tbody>
           <tr>
@@ -31,11 +31,13 @@ const Recommended = (props) => {
           {books.map((a, i) => {
 
             return (
-                <tr key={i}>
-                  <td>{a.title}</td>
-                  <td>{a.author.name}</td>
-                  <td>{a.published}</td>
-                </tr>
+              a.genres.includes(props.favoriteGenre) &&
+              <tr key={i}>
+                <td>{a.title}</td>
+                <td>{a.author.name}</td>
+                <td>{a.published}</td>
+              </tr>
+
             )
           })}
         </tbody>
