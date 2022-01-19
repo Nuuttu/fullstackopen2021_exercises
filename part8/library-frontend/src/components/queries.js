@@ -47,7 +47,7 @@ mutation createBook($title: String!, $author: String!, $published: Int!, $genres
 `
 
 export const SET_BORN_TO = gql`
-mutation setBornTo($name: String, $born: Int) {
+mutation setBornTo($name: String!, $born: Int!) {
   editAuthor(
     name: $name
     setBornTo: $born

@@ -221,28 +221,29 @@ const resolvers = {
     addBook: async (root, args, { currentUser }) => {
       console.log("addbook")
 
-
       if (!currentUser) {
         throw new AuthenticationError("not authenticated")
       }
+      try {
+        const book = new Book({ ...args })
+        book.author = await Author.findOne({ name: args.author })
+        if (book.author != null) {
+          try {
+            await book.save()
+          } catch (e) {
+            console.log('e', e)
+            throw new UserInputError(e.message, {
+              invalidArgs: args,
+            })
 
-      const book = new Book({ ...args })
-      book.author = await Author.findOne({ name: args.author })
-      if (book.author != null) {
-        try {
-          await book.save()
-        } catch (e) {
-          console.log('e', e)
-          throw new UserInputError(e.message, {
-            invalidArgs: args,
-          })
-
+          }
+          nBook = await Book.findOne({ title: args.title })
+          return nBook
         }
-        nBook = await Book.findOne({ title: args.title })
-        return nBook
+        console.log("error")
+      } catch (e) {
+        throw new UserInputError("Invalid input")
       }
-      console.log("error")
-      return "errro"
       /* 
       if (!authors.find(p => p.name === args.author)) {
         const author = { name: args.author, born: null, id: uuid()}

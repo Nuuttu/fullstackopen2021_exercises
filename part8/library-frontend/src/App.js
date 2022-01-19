@@ -21,7 +21,10 @@ const Notify = ({ errorMessage }) => {
 }
 
 const App = () => {
+
+
   const [token, setToken] = useState(null)
+  // localStorage.getItem('library-user-token', token)
   const [page, setPage] = useState('authors')
   const [errorMessage, setErrorMessage] = useState(null)
 
@@ -48,8 +51,7 @@ const App = () => {
   const [createBook] = useMutation(CREATE_BOOK, {
     refetchQueries: [{ query: ALL_AUTHORS_BOOKS }],
     onError: (error) => {
-      //setError(error.graphQLErrors[0].message)
-      console.log('errir', error)
+      setError(error.graphQLErrors[0].message)
     }
   })
 
@@ -57,7 +59,7 @@ const App = () => {
     setErrorMessage(message)
     setTimeout(() => {
       setErrorMessage(null)
-    }, 10000)
+    }, 7000)
   }
 
   if (result.loading) {
@@ -73,7 +75,7 @@ const App = () => {
     if (!token) {
       return (
         <div>
-          <Notify errorMessage={errorMessage} />
+          
           <h2>Login</h2>
           <LoginForm
             setToken={setToken}
@@ -85,14 +87,19 @@ const App = () => {
    */
   console.log('resluts', result.data)
   console.log('userdata', userData.data)
+  console.log('token', token)
+  console.log('error', error)
+  console.log('error', errorMessage)
 
   return (
     <div>
 
+      <Notify errorMessage={errorMessage} />
+
       <div>
         <button onClick={() => setPage('authors')}>authors</button>
-        <button onClick={() => setPage('books')}>books</button>
-        <button onClick={() => setPage('gbooks')}>gbooks</button>
+        {/* <button onClick={() => setPage('books')}>books</button> */}
+        <button onClick={() => setPage('gbooks')}>books</button>
         {token &&
           <button onClick={() => setPage('add')}>add book</button>
         }
@@ -133,7 +140,7 @@ const App = () => {
       <Recommended
         token={token}
         books={result.data.allBooks}
-        favoriteGenre={userData.data.me.favoriteGenre}
+        userData={userData.data}
         show={page === 'recommended'}
       />
 

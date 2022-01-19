@@ -38,7 +38,7 @@ const GBooks = (props) => {
   var genres = []
   books.map((b, i) => {
     b.genres.map((g) => {
-      if (!genres.includes(g)) { genres.push(g) }
+      if (!genres.includes(g) && g !== '') { genres.push(g) }
     })
   })
 
