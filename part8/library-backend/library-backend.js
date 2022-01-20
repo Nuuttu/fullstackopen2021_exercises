@@ -1,4 +1,4 @@
-const { ApolloServer, UserInputError, gql } = require('apollo-server')
+const { ApolloServer, UserInputError, AuthenticationError, gql } = require('apollo-server')
 const { ApolloServerPluginLandingPageGraphQLPlayground } = require('apollo-server-core')
 const { UniqueDirectiveNamesRule } = require('graphql')
 const { v1: uuid } = require('uuid')
@@ -11,7 +11,27 @@ const config = require('./utils/config')
 
 const jwt = require('jsonwebtoken')
 const JWT_SECRET = config.SECRET
+/* 
+const createServer = require('http');
+const { execute, subscribe } = require('graphql');
+const { SubscriptionServer } = require('subscriptions-transport-ws');
+const { makeExecutableSchema } = require('@graphql-tools/schema');
+ */
+/* 
+import { createServer } from 'http';
+import { execute, subscribe } from 'graphql';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+ */
 
+const { PubSub } = require('apollo-server')
+const pubsub = new PubSub()
+
+
+// This `app` is the returned value from `express()`.
+/* 
+const httpServer = createServer(app);
+ */
 console.log('connecting to', config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
 mongoose.connect(config.MONGODB_URI)
   .then(() => {
@@ -106,10 +126,11 @@ let books = [
 ]
 
 const typeDefs = gql`
+ 
   type Author {
     name: String!
     born: Int!
-    bookCount: Int
+    bookCount: [Book!]!
     id: ID!
   }
 
@@ -134,7 +155,6 @@ const typeDefs = gql`
   type Query {
     authorCount: Int!
     allAuthors(name: String, born: Int): [Author!]!
-    bookCount: Int!
     allBooks(author: String, genre: String): [Book]
     findAuthor(name: String!): Author
     findBook(title: String!): Book
@@ -166,23 +186,26 @@ const typeDefs = gql`
       password: String!
     ): Token
   }
+
+   type Subscription {
+    bookAdded: Book!
+  }    
 `
 
 //allBooks(author: String, genre: String): [Book]
 // EHKÄ BOOKS TYPE LISÄÄÄ
 
-
 const resolvers = {
   Query: {
     authorCount: () => Author.collection.countDocuments(),
     allAuthors: async (root, args) => {
-      return await Author.find({})
+      return await Author.find({}).populate('bookCount')
     },
-    bookCount: () => Book.collection.countDocuments(),
+    //bookCount: () => Book.collection.countDocuments(),
     findBook: async (root, args) => await Book.findOne({ title: args.title }),
-    findAuthor: async (root, args) => await Author.findOne({ name: args.name }),
+    findAuthor: async (root, args) => await Author.findOne({ name: args.name }).populate('bookCount'),
     allBooks: async (root, { author, genre }) => {
-      if (author && genre) {
+      /* if (author && genre) {
         let li = books.filter(p => p.author === author) // && maybe works
         li = li.filter(p => p.genres.includes(genre))
         return li
@@ -193,7 +216,7 @@ const resolvers = {
       }
       if (!author && genre) {
         return books.filter(p => p.genres.includes(genre))
-      }
+      } */
       return await Book.find({})
     },
     me: (root, args, context) => {
@@ -206,21 +229,26 @@ const resolvers = {
   },
   Author: {
     bookCount: async (root) => {
+      //  const cc = Book.collection.countDocuments({ author: root.name }, function (err, c) {
+      //    console.log('count', c)
+      //  })
+
+
       const au = await Author.findOne({ name: root.name }) //.filter(p => p.author === root.name)
       const li = await Book.find({ author: au })
-      return li.length
+      return li
+
     }
   },
   Book: {
     author: async (root) => {
-      const au = await Author.findById(root.author)
+      const au = await Author.findById(root.author).populate('bookCount')
       return au
     }
   },
   Mutation: {
     addBook: async (root, args, { currentUser }) => {
       console.log("addbook")
-
       if (!currentUser) {
         throw new AuthenticationError("not authenticated")
       }
@@ -238,7 +266,10 @@ const resolvers = {
 
           }
           nBook = await Book.findOne({ title: args.title })
-          return nBook
+
+          pubsub.publish('BOOK_ADDED', { bookAdded: book })
+
+          return book
         }
         console.log("error")
       } catch (e) {
@@ -304,7 +335,12 @@ const resolvers = {
 
       return { value: jwt.sign(userForToken, JWT_SECRET) }
     },
-  }
+  },
+  Subscription: {
+    bookAdded: {
+      subscribe: () => pubsub.asyncIterator(['BOOK_ADDED'])
+    },
+  },
 }
 
 const server = new ApolloServer({
@@ -328,6 +364,7 @@ const server = new ApolloServer({
   ]
 })
 
-server.listen().then(({ url }) => {
+server.listen().then(({ url, subscriptionsUrl }) => {
   console.log(`Server ready at ${url}`)
+  console.log(`Subscriptions ready at ${subscriptionsUrl}`)
 })

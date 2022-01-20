@@ -1,11 +1,11 @@
-import { useApolloClient, useMutation, useQuery } from '@apollo/client'
+import { useApolloClient, useMutation, useQuery, useSubscription } from '@apollo/client'
 import React, { useState } from 'react'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import GBooks from './components/GBooks'
 import LoginForm from './components/LoginForm'
 import NewBook from './components/NewBook'
-import { ALL_AUTHORS_BOOKS, CREATE_BOOK, SET_BORN_TO, USERS_FAVORITE_GENRE, GENRE_BOOKS } from './components/queries'
+import { ALL_AUTHORS_BOOKS, CREATE_BOOK, SET_BORN_TO, USERS_FAVORITE_GENRE, GENRE_BOOKS, BOOK_ADDED } from './components/queries'
 import Recommended from './components/recommended'
 
 
@@ -22,6 +22,12 @@ const Notify = ({ errorMessage }) => {
 
 const App = () => {
 
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      window.alert('Book added: ' + subscriptionData.data.bookAdded.title)
+      console.log(subscriptionData)
+    }
+  })
 
   const [token, setToken] = useState(null)
   // localStorage.getItem('library-user-token', token)
@@ -87,9 +93,12 @@ const App = () => {
    */
   console.log('resluts', result.data)
   console.log('userdata', userData.data)
+  /* 
   console.log('token', token)
   console.log('error', error)
   console.log('error', errorMessage)
+ */
+
 
   return (
     <div>

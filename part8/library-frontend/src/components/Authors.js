@@ -7,8 +7,8 @@ const Authors = (props) => {
   const [name, setName] = useState('')
   const [born, setBorn] = useState('')
   const [selectedOption, setSelectedOption] = useState(null);
- 
- 
+
+
 
   if (!props.show) {
     return null
@@ -16,12 +16,12 @@ const Authors = (props) => {
 
   const authors = props.authors
 
-  let options = 
-    authors.map(a => { return {"value": a.name, "label": a.name}  })
-  
+  let options =
+    authors.map(a => { return { "value": a.name, "label": a.name } })
+
 
   const handleOptionChange = (e) => {
-    console.log('e',e)
+    console.log('e', e)
     setSelectedOption(e.value)
     setName(e.value)
   }
@@ -54,7 +54,7 @@ const Authors = (props) => {
               <tr key={a.name}>
                 <td>{a.name}</td>
                 <td>{a.born}</td>
-                <td>{a.bookCount}</td>
+                <td>{a.bookCount.length}</td>
               </tr>
             )}
           </tbody>
@@ -69,7 +69,7 @@ const Authors = (props) => {
             defaultValue={selectedOption}
             onChange={handleOptionChange}
             options={options}
-            
+
           />
           {/*
           <div>
@@ -92,7 +92,7 @@ const Authors = (props) => {
 
           <button type='submit'>update author</button>
         </form>
-        
+
       </div>
     </div>
   )
