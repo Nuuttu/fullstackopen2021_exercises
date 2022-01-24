@@ -9,7 +9,7 @@ interface exerciseResults {
 
 }
 
-const calculateExercises = (hours: Array<number>, target: number): exerciseResults => {
+const calculateExercises = (target: number, hours: Array<number>): exerciseResults => {
 
   const days = hours.length
   const daysOfTraining = hours.filter(a => a != 0).length
@@ -40,8 +40,23 @@ const calculateExercises = (hours: Array<number>, target: number): exerciseResul
   }
 }
 
-console.log('argv', process.argv)
+interface TargetAndHours {
+  target: number,
+  hours: Array<number>
+}
 
+const parseArguments = (args: Array<string>): TargetAndHours => {
+  const target = Number(args[2])
+  const hours = args.slice(3).map(Number)
+  return {
+    target: target,
+    hours: hours
+  }
+}
 
-//console.log(calculateExercises(process.argv, args[3]));
-//console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+try {
+  const { target, hours } = parseArguments(process.argv)
+  console.log(calculateExercises(target, hours))
+} catch (error: unknown) {
+  console.log('err')
+}

@@ -1,5 +1,6 @@
 const calculateBmi = (a: number, b: number) => {
 
+
   const bmi = b / (a * 0.01 ^ 2)
 
   if (bmi < 16.1) {
@@ -21,5 +22,4 @@ const calculateBmi = (a: number, b: number) => {
   }
 }
 
-
-calculateBmi(180, 74);
+calculateBmi(Number(process.argv[2]), Number(process.argv[3]));
