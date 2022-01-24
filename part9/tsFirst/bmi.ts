@@ -1,25 +1,24 @@
-const calculateBmi = (a: number, b: number) => {
+export const calculateBmi = (height: number, weight: number): string => {
 
-
-  const bmi = b / (a * 0.01 ^ 2)
+  const bmi = weight / (height * 0.01 ^ 2)
 
   if (bmi < 16.1) {
-    console.log('Underweight (Severe thinness)')
+    return ('Underweight (Severe thinness)')
   } else if (bmi < 17) {
-    console.log('Underweight (Moderate thinness)	')
+    return ('Underweight (Moderate thinness)')
   } else if (bmi < 18.5) {
-    console.log('Underweight (Mild thinness)')
+    return ('Underweight (Mild thinness)')
   } else if (bmi < 25.0) {
-    console.log('Normal range')
+    return ('Normal range')
   } else if (bmi < 30.0) {
-    console.log('Overweight (Pre-obese)')
+    return ('Overweight (Pre-obese)')
   } else if (bmi < 35.0) {
-    console.log('Obese (Class I)')
+    return ('Obese (Class I)')
   } else if (bmi < 40) {
-    console.log('Obese (Class II)')
+    return ('Obese (Class II)')
   } else {
-    console.log('Obese (Class III)')
+    return ('Obese (Class III)')
   }
 }
 
-calculateBmi(Number(process.argv[2]), Number(process.argv[3]));
+console.log(calculateBmi(Number(process.argv[2]), Number(process.argv[3])));
