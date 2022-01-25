@@ -2,7 +2,7 @@ import diagnosisData from '../resources/diagnoses.json'
 
 import { DiagnosisEntry } from '../types';
 
-const diagnoses: Array<DiagnosisEntry> = diagnosisData as Array<DiagnosisEntry>;
+const diagnoses: Array<DiagnosisEntry> = diagnosisData;
 
 const getEntries = (): Array<DiagnosisEntry> => {
   return diagnoses;
