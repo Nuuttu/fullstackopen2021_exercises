@@ -1,4 +1,18 @@
 
+GET http://localhost:3001/api/patients
+###
+POST http://localhost:3001/api/patients
+Content-Type: application/json
+
+{
+  "dateOfBirth": "qwdqwd",
+  "gender": "female",
+  "name": "dqwdwwd",
+  "occupation": "qwdqwdqw",
+  "ssn": "qwdqwd"
+}
+
+
 
 GET http://localhost:3002/bmi?height=120&weight=80.
 ###

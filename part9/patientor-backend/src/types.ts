@@ -1,6 +1,6 @@
 export type HealthRating = 'great' | 'good' | 'ok' | 'poor';
 
-export type Gender = 'male' | 'female';
+export enum Gender { Male = 'male', Female = 'female', Other = 'other' }
 
 export interface PatientEntry {
   id: string;
@@ -11,17 +11,9 @@ export interface PatientEntry {
   occupation: string;
 }
 
-export type Weather = 'sunny' | 'rainy' | 'cloudy' | 'windy' | 'stormy';
+export type NonSensitivePatientEntry = Omit<PatientEntry, 'ssn'>
 
-export type Visibility = 'great' | 'good' | 'ok' | 'poor';
-
-export interface DiaryEntry {
-  id: number;
-  date: string;
-  weather: Weather;
-  visibility: Visibility;
-  comment?: string;
-}
+export type NewPatientEntry = Omit<PatientEntry, 'id'>
 
 export interface DiagnosisEntry {
   code: string;
